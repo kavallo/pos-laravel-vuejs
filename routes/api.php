@@ -21,7 +21,7 @@ Route::prefix('auth')->group(function() {
     Route::middleware('auth:api')->group(function() {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('refresh', [AuthController::class, 'refresh']);
-        Route::post('user', [AuthController::class, 'user']);
+        Route::post('user', [AuthController::class, 'AuthenticateUser']);
     });
     
 });

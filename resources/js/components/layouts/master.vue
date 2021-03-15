@@ -14,7 +14,7 @@
 
             <!-- Profile Dropdown Menu -->
             <li class="nav-item dropdown">
-                <a class="nav-link" href="#"> <i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a @click="logout" class="nav-link" href="#"> <i class="fas fa-sign-out-alt"></i> Logout</a>
             </li>
 
             </ul>
@@ -51,8 +51,17 @@ import Sidebar from './templates/sidebar'
 export default {
     methods: {
         availableAuthPage() {
-            return this.$route.name == 'login' ||
-                this.$route.name == 'register' ? false : true
+            return this.$route.name == 'login' ? false : true
+        },
+        logout() {
+            axios.post(`/api/auth/logout?token=${AppStorage.get_token()}`)
+            .then(response => {
+                AppStorage.remove_token()
+                this.$router.push({ name: 'login' })
+            })
+            .catch(error => {
+                
+            })
         }
     },
     

@@ -11,7 +11,6 @@
                 <div class="card-body">
                     <p class="login-box-msg">Login to start your session</p>
                     <alert-error v-if="form.errors.has('error')" :form="form" message=""></alert-error>
-                    <alert-success :form="form" message="Logged In"></alert-success>
     
                     <form @submit.prevent="login" @keydown="form.onKeydown($event)">
 
@@ -71,11 +70,11 @@ export default {
         login() {
             this.form.post('/api/auth/login')
             .then(response => {
-                Auth.store_token(response.data.access_token)
+                AppStorage.store_token(response.data.access_token)
                 this.$router.push({ name: 'home' })
             })
             .catch(error => {
-                console.log('Unauthorized.')
+                
             })
         }
     }

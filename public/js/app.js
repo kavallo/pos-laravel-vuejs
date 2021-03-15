@@ -1902,7 +1902,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1918,14 +1917,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.form.post('/api/auth/login').then(function (response) {
-        Auth.store_token(response.data.access_token);
+        AppStorage.store_token(response.data.access_token);
 
         _this.$router.push({
           name: 'home'
         });
-      })["catch"](function (error) {
-        console.log('Unauthorized.');
-      });
+      })["catch"](function (error) {});
     }
   }
 });
@@ -2027,7 +2024,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     availableAuthPage: function availableAuthPage() {
-      return this.$route.name == 'login' || this.$route.name == 'register' ? false : true;
+      return this.$route.name == 'login' ? false : true;
+    },
+    logout: function logout() {
+      var _this = this;
+
+      axios.post("/api/auth/logout?token=".concat(AppStorage.get_token())).then(function (response) {
+        AppStorage.remove_token();
+
+        _this.$router.push({
+          name: 'login'
+        });
+      })["catch"](function (error) {});
     }
   },
   components: {
@@ -2093,10 +2101,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/Auth.js":
-/*!******************************!*\
-  !*** ./resources/js/Auth.js ***!
-  \******************************/
+/***/ "./resources/js/Helpers/AppStorage.js":
+/*!********************************************!*\
+  !*** ./resources/js/Helpers/AppStorage.js ***!
+  \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2104,37 +2112,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-
-
-var Auth = /*#__PURE__*/function () {
-  function Auth() {
-    _classCallCheck(this, Auth);
+var AppStorage = /*#__PURE__*/function () {
+  function AppStorage() {
+    _classCallCheck(this, AppStorage);
   }
 
-  _createClass(Auth, [{
-    key: "check",
-    value: function check() {
-      var token = this.get_token();
-
-      if (token !== null) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/auth/user?token=".concat(token)).then(function (response) {
-          return response.data;
-        })["catch"](function (error) {
-          return false;
-        });
-      } else {
-        return false;
-      }
-    }
-  }, {
+  _createClass(AppStorage, [{
     key: "store_token",
     value: function store_token(token) {
       localStorage.setItem('app_token', token);
@@ -2142,7 +2131,7 @@ var Auth = /*#__PURE__*/function () {
   }, {
     key: "get_token",
     value: function get_token() {
-      localStorage.getItem('app_token');
+      return localStorage.getItem('app_token');
     }
   }, {
     key: "remove_token",
@@ -2151,10 +2140,10 @@ var Auth = /*#__PURE__*/function () {
     }
   }]);
 
-  return Auth;
+  return AppStorage;
 }();
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Auth = new Auth());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppStorage = new AppStorage());
 
 /***/ }),
 
@@ -2198,7 +2187,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _Router_routes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Router/routes */ "./resources/js/Router/routes.js");
 /* harmony import */ var _components_layouts_master__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/layouts/master */ "./resources/js/components/layouts/master.vue");
-/* harmony import */ var _Auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Auth */ "./resources/js/Auth.js");
+/* harmony import */ var _Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Helpers/AppStorage */ "./resources/js/Helpers/AppStorage.js");
 /* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vform */ "./node_modules/vform/dist/vform.common.js");
 /* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vform__WEBPACK_IMPORTED_MODULE_3__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
@@ -2213,13 +2202,42 @@ vue__WEBPACK_IMPORTED_MODULE_4__.default.component(vform__WEBPACK_IMPORTED_MODUL
 vue__WEBPACK_IMPORTED_MODULE_4__.default.component(vform__WEBPACK_IMPORTED_MODULE_3__.AlertError.name, vform__WEBPACK_IMPORTED_MODULE_3__.AlertError);
 vue__WEBPACK_IMPORTED_MODULE_4__.default.component(vform__WEBPACK_IMPORTED_MODULE_3__.AlertErrors.name, vform__WEBPACK_IMPORTED_MODULE_3__.AlertErrors);
 vue__WEBPACK_IMPORTED_MODULE_4__.default.component(vform__WEBPACK_IMPORTED_MODULE_3__.AlertSuccess.name, vform__WEBPACK_IMPORTED_MODULE_3__.AlertSuccess);
-window.Auth = _Auth__WEBPACK_IMPORTED_MODULE_2__.default;
+window.AppStorage = _Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__.default;
 window.Form = vform__WEBPACK_IMPORTED_MODULE_3__.Form;
 vue__WEBPACK_IMPORTED_MODULE_4__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_5__.default);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__.default({
   mode: 'history',
   routes: _Router_routes__WEBPACK_IMPORTED_MODULE_0__.default // short for `routes: routes`
 
+});
+router.beforeEach(function (to, from, next) {
+  if (to.name == 'login') {
+    if (_Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__.default.get_token()) {
+      axios.post("/api/auth/user?token=".concat(_Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__.default.get_token())).then(function (response) {
+        next({
+          name: 'home'
+        });
+      })["catch"](function (error) {
+        next();
+      });
+    } else {
+      next();
+    }
+  } else {
+    if (_Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__.default.get_token()) {
+      axios.post("/api/auth/user?token=".concat(_Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__.default.get_token())).then(function (response) {
+        next();
+      })["catch"](function (error) {
+        next({
+          name: 'login'
+        });
+      });
+    } else {
+      next({
+        name: 'login'
+      });
+    }
+  }
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_4__.default({
   render: function render(h) {
@@ -21022,10 +21040,6 @@ var render = function() {
               ? _c("alert-error", { attrs: { form: _vm.form, message: "" } })
               : _vm._e(),
             _vm._v(" "),
-            _c("alert-success", {
-              attrs: { form: _vm.form, message: "Logged In" }
-            }),
-            _vm._v(" "),
             _c(
               "form",
               {
@@ -21269,7 +21283,37 @@ var render = function() {
         "div",
         { staticClass: "wrapper" },
         [
-          _vm._m(0),
+          _c(
+            "nav",
+            {
+              staticClass:
+                "main-header navbar navbar-expand navbar-dark navbar-primary",
+              staticStyle: {
+                "background-image":
+                  "linear-gradient(0deg, #000041 0%, rgba(19,28,117,0.74) 100%)"
+              }
+            },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+                _c("li", { staticClass: "nav-item dropdown" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "nav-link",
+                      attrs: { href: "#" },
+                      on: { click: _vm.logout }
+                    },
+                    [
+                      _c("i", { staticClass: "fas fa-sign-out-alt" }),
+                      _vm._v(" Logout")
+                    ]
+                  )
+                ])
+              ])
+            ]
+          ),
           _vm._v(" "),
           _c("side-bar"),
           _vm._v(" "),
@@ -21286,40 +21330,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "nav",
-      {
-        staticClass:
-          "main-header navbar navbar-expand navbar-dark navbar-primary",
-        staticStyle: {
-          "background-image":
-            "linear-gradient(0deg, #000041 0%, rgba(19,28,117,0.74) 100%)"
-        }
-      },
-      [
-        _c("ul", { staticClass: "navbar-nav" }, [
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link",
-                attrs: { "data-widget": "pushmenu", href: "#", role: "button" }
-              },
-              [_c("i", { staticClass: "fas fa-bars" })]
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("ul", { staticClass: "navbar-nav ml-auto" }, [
-          _c("li", { staticClass: "nav-item dropdown" }, [
-            _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-              _c("i", { staticClass: "fas fa-sign-out-alt" }),
-              _vm._v(" Logout")
-            ])
-          ])
-        ])
-      ]
-    )
+    return _c("ul", { staticClass: "navbar-nav" }, [
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          {
+            staticClass: "nav-link",
+            attrs: { "data-widget": "pushmenu", href: "#", role: "button" }
+          },
+          [_c("i", { staticClass: "fas fa-bars" })]
+        )
+      ])
+    ])
   },
   function() {
     var _vm = this
