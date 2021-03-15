@@ -57,7 +57,6 @@
     </div>
 </template>
 <script>
-import { Form } from 'vform'
 export default {
     data() {
         return {
@@ -72,11 +71,11 @@ export default {
         login() {
             this.form.post('/api/auth/login')
             .then(response => {
-                console.log(response.data)
-                this.form.reset ()
+                Auth.store_token(response.data.access_token)
+                this.$router.push({ name: 'home' })
             })
             .catch(error => {
-                console.log('catch')
+                console.log('Unauthorized.')
             })
         }
     }
