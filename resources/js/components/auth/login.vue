@@ -10,24 +10,28 @@
                 </div>
                 <div class="card-body">
                     <p class="login-box-msg">Login to start your session</p>
+                    <alert-error v-if="form.errors.has('error')" :form="form" message=""></alert-error>
+                    <alert-success :form="form" message="Logged In"></alert-success>
     
-                    <form method="POST" action="#">
+                    <form @submit.prevent="login" @keydown="form.onKeydown($event)">
 
                         <div class="input-group mb-3">
-                            <input type="email" class="form-control"  required autocomplete="email" autofocus placeholder="Email">
+                            <input type="email" v-model="form.email" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }" placeholder="Email">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
                                 </div>
                             </div>
+                            <has-error :form="form" field="email"></has-error>
                         </div>
                         <div class="input-group mb-3">
-                            <input type="password" class="form-control" autocomplete="current-password" placeholder="Password">
+                            <input type="password" v-model="form.password" class="form-control" :class="{ 'is-invalid': form.errors.has('password') }" placeholder="Password">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
                                 </div>
                             </div>
+                            <has-error :form="form" field="password"></has-error>
                         </div>
                         <div class="row">
                             <div class="col-lg-8">
@@ -38,7 +42,7 @@
                             </div>
                             <!-- /.col -->
                             <div class="col-lg-4">
-                                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                <button type="submit" class="btn btn-primary btn-block" :disabled="form.busy">Login</button>
                             </div>
                             <!-- /.col -->
                         </div>
@@ -53,8 +57,29 @@
     </div>
 </template>
 <script>
+import { Form } from 'vform'
 export default {
-    
+    data() {
+        return {
+            form: new Form({
+                email: '',
+                password: '',
+                remember: false
+            })
+        }
+    },
+    methods: {
+        login() {
+            this.form.post('/api/auth/login')
+            .then(response => {
+                console.log(response.data)
+                this.form.reset ()
+            })
+            .catch(error => {
+                console.log('catch')
+            })
+        }
+    }
 }
 </script>
 <style>
