@@ -72,6 +72,7 @@ export default {
             .then(response => {
                 AppStorage.store_token(response.data.access_token)
                 this.$router.push({ name: 'home' })
+                toastr.success('Logged In.')
             })
             .catch(error => {
                 

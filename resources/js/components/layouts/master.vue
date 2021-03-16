@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="wrapper" v-if="availableAuthPage()">
+    <div class="wrapper" v-if="sidebarMenuShow() && sidebarMenu">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-dark navbar-primary" style="background-image: linear-gradient(0deg, #000041 0%, rgba(19,28,117,0.74) 100%);">
             <!-- Left navbar links -->
@@ -47,12 +47,28 @@
 </template>
 <script>
 import Sidebar from './templates/sidebar'
-
 export default {
+    data() {
+        return {
+            sidebarMenu: false
+        }
+    },
     methods: {
-        availableAuthPage() {
-            return this.$route.name == 'login' ? false : true
+        sidebarMenuShow() {
+            if(AppStorage.get_token()) {
+                axios.post(`/api/auth/user?token=${AppStorage.get_token()}`)
+                .then(response => {
+                    this.sidebarMenu = true
+                })
+                .catch(error => {
+                    this.sidebarMenu = false
+                })
+            } else {
+                this.sidebarMenu = false
+            }
+            return true
         },
+
         logout() {
             axios.post(`/api/auth/logout?token=${AppStorage.get_token()}`)
             .then(response => {
@@ -60,14 +76,14 @@ export default {
                 this.$router.push({ name: 'login' })
             })
             .catch(error => {
-                
+                AppStorage.remove_token()
+                this.$router.push({ name: 'login' })
             })
         }
     },
-    
     components: {
         'side-bar': Sidebar
-    }    
+    }
 }
 </script>
 <style lang="">

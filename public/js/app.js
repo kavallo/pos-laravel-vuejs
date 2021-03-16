@@ -1922,6 +1922,8 @@ __webpack_require__.r(__webpack_exports__);
         _this.$router.push({
           name: 'home'
         });
+
+        toastr.success('Logged In.');
       })["catch"](function (error) {});
     }
   }
@@ -2022,20 +2024,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      sidebarMenu: false
+    };
+  },
   methods: {
-    availableAuthPage: function availableAuthPage() {
-      return this.$route.name == 'login' ? false : true;
+    sidebarMenuShow: function sidebarMenuShow() {
+      var _this = this;
+
+      if (AppStorage.get_token()) {
+        axios.post("/api/auth/user?token=".concat(AppStorage.get_token())).then(function (response) {
+          _this.sidebarMenu = true;
+        })["catch"](function (error) {
+          _this.sidebarMenu = false;
+        });
+      } else {
+        this.sidebarMenu = false;
+      }
+
+      return true;
     },
     logout: function logout() {
-      var _this = this;
+      var _this2 = this;
 
       axios.post("/api/auth/logout?token=".concat(AppStorage.get_token())).then(function (response) {
         AppStorage.remove_token();
 
-        _this.$router.push({
+        _this2.$router.push({
           name: 'login'
         });
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        AppStorage.remove_token();
+
+        _this2.$router.push({
+          name: 'login'
+        });
+      });
     }
   },
   components: {
@@ -21278,7 +21303,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.availableAuthPage()
+  return _vm.sidebarMenuShow() && _vm.sidebarMenu
     ? _c(
         "div",
         { staticClass: "wrapper" },
