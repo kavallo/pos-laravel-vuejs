@@ -14,7 +14,7 @@
 
             <!-- Profile Dropdown Menu -->
             <li class="nav-item dropdown">
-                <a @click="logout" class="nav-link" href="#"> <i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a @click.prevent="logout" class="nav-link" href=""> <i class="fas fa-sign-out-alt"></i> Logout</a>
             </li>
 
             </ul>

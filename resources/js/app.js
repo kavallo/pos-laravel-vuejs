@@ -30,6 +30,7 @@ router.beforeEach((to, from, next) => {
                 next({ name: 'home' })
             })
             .catch(error => {
+                AppStorage.remove_token()
                 next()
             })
         } else {
@@ -42,6 +43,7 @@ router.beforeEach((to, from, next) => {
                 next()
             })
             .catch(error => {
+                AppStorage.remove_token()
                 next({ name: 'login' })
             })
         } else {
