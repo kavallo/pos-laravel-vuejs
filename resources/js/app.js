@@ -1,6 +1,7 @@
 require('./bootstrap')
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Vuex from 'vuex'
 import routes from './Router/routes'
 import Master from './components/layouts/master'
 import AppStorage from './Helpers/AppStorage'
@@ -15,6 +16,7 @@ window.AppStorage = AppStorage
 window.Form = Form
 
 Vue.use(VueRouter)
+Vue.use(Vuex)
 
   
 const router = new VueRouter({
