@@ -2243,7 +2243,6 @@ router.beforeEach(function (to, from, next) {
           name: 'home'
         });
       })["catch"](function (error) {
-        _Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__.default.remove_token();
         next();
       });
     } else {
@@ -2254,7 +2253,6 @@ router.beforeEach(function (to, from, next) {
       axios.post("/api/auth/user?token=".concat(_Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__.default.get_token())).then(function (response) {
         next();
       })["catch"](function (error) {
-        _Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__.default.remove_token();
         next({
           name: 'login'
         });
