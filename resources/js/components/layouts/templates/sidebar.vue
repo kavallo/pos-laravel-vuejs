@@ -25,9 +25,9 @@
 
                 <!-- Profile -->
                 <li class="nav-item">
-                    <router-link :to="{ name: 'login' }" class="nav-link">
+                    <router-link :to="{ name: 'about' }" class="nav-link">
                         <i class="nav-icon fa fa-user"></i>
-                        <p>Login</p>
+                        <p>About</p>
                     </router-link>
                 </li>
 

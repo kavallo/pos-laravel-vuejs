@@ -70,7 +70,8 @@ export default {
         login() {
             this.form.post('/api/auth/login')
             .then(response => {
-                AppStorage.store_token(response.data.access_token)
+                AppStorage.storeToken(response.data.access_token)
+                this.$store.dispatch('auth')
                 this.$router.push({ name: 'home' })
                 toastr.success('Logged In.')
             })

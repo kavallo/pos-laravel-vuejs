@@ -1,13 +1,13 @@
 class AppStorage {
-    store_token(token) {
+    storeToken(token) {
         localStorage.setItem('app_token', token)
     }
 
-    get_token() {
+    getToken() {
         return localStorage.getItem('app_token')
     }
 
-    remove_token() {
+    removeToken() {
         localStorage.removeItem('app_token')
     }
 }
