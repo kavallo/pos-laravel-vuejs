@@ -17,15 +17,20 @@ const store = new Vuex.Store({
     },
     mutations: {
         auth(state) {
-            axios.post(`/api/auth/user?token=${AppStorage.getToken()}`)
-            .then(response => {
-                state.auth.check = true
-                state.auth.user = response.data
-            })
-            .catch(error => {
+            if(AppStorage.getToken()) {
+                axios.post(`/api/auth/user?token=${AppStorage.getToken()}`)
+                .then(response => {
+                    state.auth.check = true
+                    state.auth.user = response.data
+                })
+                .catch(error => {
+                    state.auth.check = false
+                    state.auth.user = false
+                })
+            } else {
                 state.auth.check = false
                 state.auth.user = false
-            })
+            }
         },
         logout(state) {
             AppStorage.removeToken()
