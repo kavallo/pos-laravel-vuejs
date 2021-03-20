@@ -1,11 +1,7 @@
 <template>
     <div class="login-page">
         <div class="login-box">
-            <div class="card card-outline card-primary mb-1">
-                <div class="card-body">
-                    <p class="login-box-msg">404 | Not Found</p>
-                </div>
-            </div>
+            <h3>404 | Not Found</h3>
         </div>
     </div>
 </template>
