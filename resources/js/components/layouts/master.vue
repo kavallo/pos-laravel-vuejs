@@ -56,7 +56,7 @@ export default {
                 this.$router.push({ name: 'login' })
             })
             .catch(error => {
-                AppStorage.removeToken()
+                this.$store.dispatch('logout')
                 this.$router.push({ name: 'login' })
             })
         }
