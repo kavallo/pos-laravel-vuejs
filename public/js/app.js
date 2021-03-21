@@ -2017,8 +2017,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       form: new Form({
         email: '',
-        password: '',
-        remember: false
+        password: ''
       })
     };
   },
@@ -2026,7 +2025,7 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
 
-      this.form.post('/api/auth/login').then(function (response) {
+      this.form.post('/login').then(function (response) {
         AppStorage.storeToken(response.data.access_token);
 
         _this.$store.dispatch('auth');
@@ -2250,7 +2249,7 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       var _this = this;
 
-      axios.post("/api/auth/logout?token=".concat(AppStorage.getToken())).then(function (response) {
+      axios.post('/logout').then(function (response) {
         _this.$store.dispatch('logout');
 
         _this.$router.push({
@@ -2359,6 +2358,7 @@ var AppStorage = /*#__PURE__*/function () {
     key: "storeToken",
     value: function storeToken(token) {
       localStorage.setItem(this.accessToken, token);
+      axios.defaults.headers.common['Authorization'] = "Bearer ".concat(this.getToken());
     }
   }, {
     key: "getToken",
@@ -2410,7 +2410,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__.default.Store({
   mutations: {
     auth: function auth(state) {
       if (AppStorage.getToken()) {
-        axios.post("/api/auth/user?token=".concat(AppStorage.getToken())).then(function (response) {
+        axios.post('/user').then(function (response) {
           state.auth.check = true;
           state.auth.user = response.data;
         })["catch"](function (error) {
@@ -2457,7 +2457,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function auth(to, from, next) {
   if (AppStorage.getToken()) {
-    axios.post("/api/auth/user?token=".concat(AppStorage.getToken())).then(function (response) {
+    axios.post('/user').then(function (response) {
       next();
     })["catch"](function (error) {
       _Helpers_vuexStore__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('logout');
@@ -2474,7 +2474,7 @@ function auth(to, from, next) {
 }
 function guest(to, from, next) {
   if (AppStorage.getToken()) {
-    axios.post("/api/auth/user?token=".concat(AppStorage.getToken())).then(function (response) {
+    axios.post('/user').then(function (response) {
       next({
         name: 'home'
       });
@@ -2622,8 +2622,12 @@ vue__WEBPACK_IMPORTED_MODULE_5__.default.component(vform__WEBPACK_IMPORTED_MODUL
 vue__WEBPACK_IMPORTED_MODULE_5__.default.component(vform__WEBPACK_IMPORTED_MODULE_4__.AlertError.name, vform__WEBPACK_IMPORTED_MODULE_4__.AlertError);
 vue__WEBPACK_IMPORTED_MODULE_5__.default.component(vform__WEBPACK_IMPORTED_MODULE_4__.AlertErrors.name, vform__WEBPACK_IMPORTED_MODULE_4__.AlertErrors);
 vue__WEBPACK_IMPORTED_MODULE_5__.default.component(vform__WEBPACK_IMPORTED_MODULE_4__.AlertSuccess.name, vform__WEBPACK_IMPORTED_MODULE_4__.AlertSuccess);
+window.appUrl = 'http://pos.test';
 window.AppStorage = _Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__.default;
-window.Form = vform__WEBPACK_IMPORTED_MODULE_4__.Form;
+window.Form = vform__WEBPACK_IMPORTED_MODULE_4__.Form; // axios default configuration
+
+axios.defaults.baseURL = "".concat(appUrl, "/api");
+axios.defaults.headers.common['Authorization'] = "Bearer ".concat(_Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__.default.getToken());
 var app = new vue__WEBPACK_IMPORTED_MODULE_5__.default({
   render: function render(h) {
     return h(_components_layouts_master__WEBPACK_IMPORTED_MODULE_1__.default);

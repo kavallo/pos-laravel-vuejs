@@ -50,7 +50,7 @@ import Sidebar from './templates/sidebar'
 export default {
     methods: {
         logout() {
-            axios.post(`/api/auth/logout?token=${AppStorage.getToken()}`)
+            axios.post('/logout')
             .then(response => {
                this.$store.dispatch('logout')
                 this.$router.push({ name: 'login' })

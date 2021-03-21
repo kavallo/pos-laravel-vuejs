@@ -11,8 +11,13 @@ Vue.component(AlertError.name, AlertError)
 Vue.component(AlertErrors.name, AlertErrors)
 Vue.component(AlertSuccess.name, AlertSuccess)
 
+window.appUrl = 'http://pos.test';
 window.AppStorage = AppStorage
 window.Form = Form
+
+// axios default configuration
+axios.defaults.baseURL = `${appUrl}/api`
+axios.defaults.headers.common['Authorization'] = `Bearer ${AppStorage.getToken()}`
   
 const app = new Vue({
     render: h => h (Master),

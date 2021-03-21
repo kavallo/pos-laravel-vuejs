@@ -44,14 +44,13 @@ export default {
         return {
             form: new Form({
                 email: '',
-                password: '',
-                remember: false
+                password: ''
             })
         }
     },
     methods: {
         login() {
-            this.form.post('/api/auth/login')
+            this.form.post('/login')
             .then(response => {
                 AppStorage.storeToken(response.data.access_token)
                 this.$store.dispatch('auth')

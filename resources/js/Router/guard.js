@@ -2,7 +2,7 @@ import store from '../Helpers/vuexStore'
 
 export function auth(to, from, next) {
     if(AppStorage.getToken()) {
-        axios.post(`/api/auth/user?token=${AppStorage.getToken()}`)
+        axios.post('/user')
         .then(response => {
             next()
         })
@@ -18,7 +18,7 @@ export function auth(to, from, next) {
 
 export function guest(to, from, next) {
     if(AppStorage.getToken()) {
-        axios.post(`/api/auth/user?token=${AppStorage.getToken()}`)
+        axios.post('/user')
         .then(response => {
             next({ name: 'home' })
         })

@@ -4,6 +4,7 @@ class AppStorage {
     }
     storeToken(token) {
         localStorage.setItem(this.accessToken, token)
+        axios.defaults.headers.common['Authorization'] = `Bearer ${this.getToken()}`
     }
 
     getToken() {
