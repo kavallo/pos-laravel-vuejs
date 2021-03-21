@@ -1,12 +1,11 @@
 <template>
     <div class="card-body">
-        <p class="login-box-msg">Login to start your session</p>
+        <p class="login-box-msg">Reset Password</p>
         <alert-error v-if="form.errors.has('error')" :form="form" message=""></alert-error>
 
         <form @submit.prevent="login" @keydown="form.onKeydown($event)">
-
             <div class="input-group mb-3">
-                <input type="email" v-model="form.email" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }" placeholder="Email">
+                <input type="number" v-model="form.verification_code" class="form-control" :class="{ 'is-invalid': form.errors.has('code') }" placeholder="Verification Code">
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-envelope"></span>
@@ -23,15 +22,24 @@
                 </div>
                 <has-error :form="form" field="password"></has-error>
             </div>
+            <div class="input-group mb-3">
+                <input type="password" v-model="form.confirm_password" class="form-control" :class="{ 'is-invalid': form.errors.has('confirm_password') }" placeholder="Confirm Password">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+                <has-error :form="form" field="password"></has-error>
+            </div>
             <div class="row">
                 <div class="col-lg-8">
                     <div class="icheck-primary">
-                        <router-link :to="{ name: 'forgotten.password' }">Forgotten Password?</router-link>
+                        <router-link :to="{ name: 'login' }">Back to Login</router-link>
                     </div>
                 </div>
                 <!-- /.col -->
                 <div class="col-lg-4">
-                    <button type="submit" class="btn btn-primary btn-block" :disabled="form.busy">Login</button>
+                    <button type="submit" class="btn btn-primary btn-block" :disabled="form.busy">Reset</button>
                 </div>
                 <!-- /.col -->
             </div>

@@ -1,6 +1,6 @@
 <template>
     <div class="card-body">
-        <p class="login-box-msg">Login to start your session</p>
+        <p class="login-box-msg">Forgotten Password?</p>
         <alert-error v-if="form.errors.has('error')" :form="form" message=""></alert-error>
 
         <form @submit.prevent="login" @keydown="form.onKeydown($event)">
@@ -14,24 +14,15 @@
                 </div>
                 <has-error :form="form" field="email"></has-error>
             </div>
-            <div class="input-group mb-3">
-                <input type="password" v-model="form.password" class="form-control" :class="{ 'is-invalid': form.errors.has('password') }" placeholder="Password">
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-lock"></span>
-                    </div>
-                </div>
-                <has-error :form="form" field="password"></has-error>
-            </div>
             <div class="row">
                 <div class="col-lg-8">
                     <div class="icheck-primary">
-                        <router-link :to="{ name: 'forgotten.password' }">Forgotten Password?</router-link>
+                        <router-link :to="{ name: 'login' }">Back to Login</router-link>
                     </div>
                 </div>
                 <!-- /.col -->
                 <div class="col-lg-4">
-                    <button type="submit" class="btn btn-primary btn-block" :disabled="form.busy">Login</button>
+                    <button type="submit" class="btn btn-primary btn-block" :disabled="form.busy">Next</button>
                 </div>
                 <!-- /.col -->
             </div>
