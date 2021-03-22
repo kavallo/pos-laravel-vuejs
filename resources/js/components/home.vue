@@ -8,6 +8,7 @@
                 </div>
                 <div class="card-body">
                     <h2>Welcome to Dashboard</h2>
+                    <p>Congratulations, {{ this.$store.getters.auth.user.name }}!</p>
                 </div>
                 <!-- /.card-body -->
             </div>

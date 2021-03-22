@@ -21,7 +21,7 @@ const store = new Vuex.Store({
                 axios.post('/user')
                 .then(response => {
                     state.auth.check = true
-                    state.auth.user = response.data
+                    state.auth.user = response.data.data
                 })
                 .catch(error => {
                     state.auth.check = false
