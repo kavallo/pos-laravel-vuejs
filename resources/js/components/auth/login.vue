@@ -57,9 +57,7 @@ export default {
                 this.$router.push({ name: 'home' })
                 toastr.success('Logged In.')
             })
-            .catch(error => {
-                
-            })
+            .catch(error => {})
         }
     }
 }

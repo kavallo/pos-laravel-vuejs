@@ -2262,9 +2262,19 @@ __webpack_require__.r(__webpack_exports__);
           name: 'login'
         });
       });
+    },
+    refreshToken: function refreshToken() {
+      if (AppStorage.getToken()) {
+        axios.post('refresh').then(function (response) {
+          AppStorage.storeToken(response.data.access_token);
+        })["catch"](function (error) {});
+      }
+
+      return true;
     }
   },
   created: function created() {
+    this.refreshToken();
     this.$store.dispatch('auth');
   },
   components: {
