@@ -2105,9 +2105,10 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: new Form({
-        email: '',
+        email: this.$route.query.email,
+        token: this.$route.params.token,
         password: '',
-        remember: false
+        confirm_password: ''
       })
     };
   },
@@ -2576,7 +2577,7 @@ var routes = [// auth routes
     component: _components_auth_forgotten_password__WEBPACK_IMPORTED_MODULE_3__.default,
     name: 'forgotten.password'
   }, {
-    path: 'reset-password/:user_id/:verification_code?',
+    path: 'reset-password/:token',
     component: _components_auth_reset_password__WEBPACK_IMPORTED_MODULE_4__.default,
     name: 'reset.password'
   }]
@@ -22301,20 +22302,20 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.form.verification_code,
-                    expression: "form.verification_code"
+                    value: _vm.form.email,
+                    expression: "form.email"
                   }
                 ],
                 staticClass: "form-control",
-                class: { "is-invalid": _vm.form.errors.has("code") },
-                attrs: { type: "number", placeholder: "Verification Code" },
-                domProps: { value: _vm.form.verification_code },
+                class: { "is-invalid": _vm.form.errors.has("email") },
+                attrs: { type: "email", placeholder: "Eamil" },
+                domProps: { value: _vm.form.email },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.form, "verification_code", $event.target.value)
+                    _vm.$set(_vm.form, "email", $event.target.value)
                   }
                 }
               }),

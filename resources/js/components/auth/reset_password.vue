@@ -5,7 +5,7 @@
 
         <form @submit.prevent="login" @keydown="form.onKeydown($event)">
             <div class="input-group mb-3">
-                <input type="number" v-model="form.verification_code" class="form-control" :class="{ 'is-invalid': form.errors.has('code') }" placeholder="Verification Code">
+                <input type="email" v-model="form.email" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }" placeholder="Eamil">
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-envelope"></span>
@@ -51,9 +51,10 @@ export default {
     data() {
         return {
             form: new Form({
-                email: '',
+                email: this.$route.query.email,
+                token: this.$route.params.token,
                 password: '',
-                remember: false
+                confirm_password: '',
             })
         }
     },

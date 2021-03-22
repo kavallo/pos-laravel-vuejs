@@ -1,10 +1,14 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ForgetPasswordController;
 
 
-Route::post('login', [AuthController::class, 'login']);
+Route::middleware('guest:api')->group(function() {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('forgot-password', [ForgetPasswordController::class, 'forgetPassword']);
+});
 
 Route::middleware('auth:api')->group(function() {
     Route::post('logout', [AuthController::class, 'logout']);
