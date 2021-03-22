@@ -67,6 +67,16 @@ class AuthController extends Controller
     }
 
     /**
+     * Get Payload
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function payload()
+    {
+        return response()->json(auth()->payload());
+    }
+
+    /**
      * Get the token array structure.
      *
      * @param  string $token
