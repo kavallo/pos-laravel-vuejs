@@ -33063,6 +33063,7 @@ var render = function() {
                       "router-link",
                       {
                         staticClass: "nav-link",
+                        class: { active: this.$route.name == "home" },
                         attrs: { to: { name: "home" } }
                       },
                       [
@@ -33085,6 +33086,7 @@ var render = function() {
                       "router-link",
                       {
                         staticClass: "nav-link",
+                        class: { active: this.$route.name == "about" },
                         attrs: { to: { name: "about" } }
                       },
                       [

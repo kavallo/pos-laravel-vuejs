@@ -17,7 +17,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
                 <li class="nav-item has-treeview">
-                    <router-link :to="{ name: 'home' }" class="nav-link">
+                    <router-link :to="{ name: 'home' }" class="nav-link" :class="{ 'active' : this.$route.name == 'home' }">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </router-link>
@@ -25,7 +25,7 @@
 
                 <!-- Profile -->
                 <li class="nav-item">
-                    <router-link :to="{ name: 'about' }" class="nav-link">
+                    <router-link :to="{ name: 'about' }" class="nav-link" :class="{ 'active' : this.$route.name == 'about' }">
                         <i class="nav-icon fa fa-user"></i>
                         <p>About</p>
                     </router-link>
