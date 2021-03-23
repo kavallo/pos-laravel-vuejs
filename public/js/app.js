@@ -1945,13 +1945,13 @@ __webpack_require__.r(__webpack_exports__);
     forgotPassword: function forgotPassword() {
       var _this = this;
 
-      this.$store.dispatch('spinnerClose', false);
+      this.$store.dispatch('spinner', true);
       this.form.post('/forgot-password').then(function (response) {
         _this.message = response.data.status;
 
-        _this.$store.dispatch('spinnerClose', true);
+        _this.$store.dispatch('spinner', false);
       })["catch"](function (error) {
-        _this.$store.dispatch('spinnerClose', true);
+        _this.$store.dispatch('spinner', false);
       });
     }
   }
@@ -2023,7 +2023,7 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
 
-      this.$store.dispatch('spinnerClose', false);
+      this.$store.dispatch('spinner', true);
       this.form.post('/login').then(function (response) {
         AppStorage.storeToken(response.data.access_token);
 
@@ -2035,9 +2035,9 @@ __webpack_require__.r(__webpack_exports__);
 
         toastr.success('Successfully Logged In!');
 
-        _this.$store.dispatch('spinnerClose', true);
+        _this.$store.dispatch('spinner', false);
       })["catch"](function (error) {
-        _this.$store.dispatch('spinnerClose', true);
+        _this.$store.dispatch('spinner', false);
       });
     }
   }
@@ -2118,7 +2118,7 @@ __webpack_require__.r(__webpack_exports__);
     resetPassword: function resetPassword() {
       var _this = this;
 
-      this.$store.dispatch('spinnerClose', false);
+      this.$store.dispatch('spinner', true);
       this.form.post('/reset-password').then(function (response) {
         _this.$router.push({
           name: 'login'
@@ -2126,9 +2126,9 @@ __webpack_require__.r(__webpack_exports__);
 
         toastr.success("".concat(response.data.status, " Now, Log In."));
 
-        _this.$store.dispatch('spinnerClose', true);
+        _this.$store.dispatch('spinner', false);
       })["catch"](function (error) {
-        _this.$store.dispatch('spinnerClose', true);
+        _this.$store.dispatch('spinner', false);
       });
     }
   }
@@ -2251,6 +2251,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2283,7 +2286,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.$store.dispatch('spinnerClose', true);
     this.refreshToken();
     this.$store.dispatch('auth');
   },
@@ -2449,14 +2451,14 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__.default.Store({
       check: false,
       user: false
     },
-    spinnerClose: false
+    spinner: false
   },
   getters: {
     auth: function auth(state) {
       return state.auth;
     },
-    spinnerClose: function spinnerClose(state) {
-      return state.spinnerClose;
+    spinner: function spinner(state) {
+      return state.spinner;
     }
   },
   mutations: {
@@ -2479,8 +2481,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__.default.Store({
       state.auth.check = false;
       state.auth.user = false;
     },
-    spinnerClose: function spinnerClose(state, status) {
-      state.spinnerClose = status;
+    spinner: function spinner(state, status) {
+      state.spinner = status;
     }
   },
   actions: {
@@ -2490,8 +2492,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__.default.Store({
     logout: function logout(context) {
       context.commit('logout');
     },
-    spinnerClose: function spinnerClose(context, status) {
-      context.commit('spinnerClose', status);
+    spinner: function spinner(context, status) {
+      context.commit('spinner', status);
     }
   }
 });
@@ -32287,7 +32289,9 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm.form.errors.has("error")
-        ? _c("alert-error", { attrs: { form: _vm.form, message: "" } })
+        ? _c("alert-error", { attrs: { form: _vm.form, message: "" } }, [
+            _vm._v("Something went wrong!")
+          ])
         : _vm._e(),
       _vm._v(" "),
       _c("alert-success", { attrs: { form: _vm.form, message: "" } }, [
@@ -32867,67 +32871,70 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return this.$store.getters.auth.check
-    ? _c(
-        "div",
-        { staticClass: "wrapper" },
-        [
-          !this.$store.getters.spinnerClose ? _c("spinner") : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "nav",
-            {
-              staticClass:
-                "main-header navbar navbar-expand navbar-dark navbar-primary",
-              staticStyle: {
-                "background-image":
-                  "linear-gradient(0deg, #000041 0%, rgba(19,28,117,0.74) 100%)"
-              }
-            },
+  return _c(
+    "div",
+    [
+      this.$store.getters.spinner ? _c("spinner") : _vm._e(),
+      _vm._v(" "),
+      this.$store.getters.auth.check
+        ? _c(
+            "div",
+            { staticClass: "wrapper" },
             [
-              _vm._m(0),
+              _c(
+                "nav",
+                {
+                  staticClass:
+                    "main-header navbar navbar-expand navbar-dark navbar-primary",
+                  staticStyle: {
+                    "background-image":
+                      "linear-gradient(0deg, #000041 0%, rgba(19,28,117,0.74) 100%)"
+                  }
+                },
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+                    _c("li", { staticClass: "nav-item dropdown" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "nav-link",
+                          attrs: { href: "" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.logout($event)
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "fas fa-sign-out-alt" }),
+                          _vm._v(" Logout")
+                        ]
+                      )
+                    ])
+                  ])
+                ]
+              ),
               _vm._v(" "),
-              _c("ul", { staticClass: "navbar-nav ml-auto" }, [
-                _c("li", { staticClass: "nav-item dropdown" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "nav-link",
-                      attrs: { href: "" },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.logout($event)
-                        }
-                      }
-                    },
-                    [
-                      _c("i", { staticClass: "fas fa-sign-out-alt" }),
-                      _vm._v(" Logout")
-                    ]
-                  )
-                ])
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c("side-bar"),
-          _vm._v(" "),
-          _c("div", { staticClass: "content-wrapper" }, [_c("router-view")], 1),
-          _vm._v(" "),
-          _vm._m(1)
-        ],
-        1
-      )
-    : _c(
-        "div",
-        [
-          !this.$store.getters.spinnerClose ? _c("spinner") : _vm._e(),
-          _vm._v(" "),
-          _c("router-view")
-        ],
-        1
-      )
+              _c("side-bar"),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "content-wrapper" },
+                [_c("router-view")],
+                1
+              ),
+              _vm._v(" "),
+              _vm._m(1)
+            ],
+            1
+          )
+        : _c("div", [_c("router-view")], 1)
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -32963,7 +32970,7 @@ var staticRenderFns = [
       [
         _c("div", { staticClass: "container" }, [
           _c("div", { staticClass: "float-md-right text-white" }, [
-            _vm._v("\n            Developed By "),
+            _vm._v("\n                Developed By "),
             _c(
               "a",
               {

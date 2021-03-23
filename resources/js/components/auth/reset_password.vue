@@ -59,15 +59,15 @@ export default {
     },
     methods: {
         resetPassword() {
-            this.$store.dispatch('spinnerClose', false)
+            this.$store.dispatch('spinner', true)
             this.form.post('/reset-password')
             .then(response => {
                 this.$router.push({ name: 'login' })
                 toastr.success(`${response.data.status} Now, Log In.`)
-                this.$store.dispatch('spinnerClose', true)
+                this.$store.dispatch('spinner', false)
             })
             .catch(error => {
-                this.$store.dispatch('spinnerClose', true)
+                this.$store.dispatch('spinner', false)
             })
         }
     }

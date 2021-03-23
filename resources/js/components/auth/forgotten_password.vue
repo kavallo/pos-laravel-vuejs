@@ -1,7 +1,7 @@
 <template>
     <div class="card-body">
         <p class="login-box-msg">Forgotten Password?</p>
-        <alert-error v-if="form.errors.has('error')" :form="form" message=""></alert-error>
+        <alert-error v-if="form.errors.has('error')" :form="form" message="">Something went wrong!</alert-error>
         <alert-success :form="form" message=""> {{ message }} </alert-success>
 
         <form @submit.prevent="forgotPassword" @keydown="form.onKeydown($event)">
@@ -43,14 +43,14 @@ export default {
     },
     methods: {
         forgotPassword() {
-            this.$store.dispatch('spinnerClose', false)
+            this.$store.dispatch('spinner', true)
             this.form.post('/forgot-password')
             .then(response => {
                 this.message = response.data.status
-                this.$store.dispatch('spinnerClose', true)
+                this.$store.dispatch('spinner', false)
             })
             .catch(error => {
-                this.$store.dispatch('spinnerClose', true)
+                this.$store.dispatch('spinner', false)
             })
         }
     }
