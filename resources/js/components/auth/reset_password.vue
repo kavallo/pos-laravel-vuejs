@@ -3,7 +3,7 @@
         <p class="login-box-msg">Reset Password</p>
         <alert-error v-if="form.errors.has('error')" :form="form" message=""></alert-error>
 
-        <form @submit.prevent="login" @keydown="form.onKeydown($event)">
+        <form @submit.prevent="resetPassword" @keydown="form.onKeydown($event)">
             <div class="input-group mb-3">
                 <input type="email" v-model="form.email" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }" placeholder="Eamil">
                 <div class="input-group-append">
@@ -58,13 +58,17 @@ export default {
         }
     },
     methods: {
-        login() {
+        resetPassword() {
+            this.$store.dispatch('spinnerClose', false)
             this.form.post('/reset-password')
             .then(response => {
                 this.$router.push({ name: 'login' })
                 toastr.success(`${response.data.status} Now, Log In.`)
+                this.$store.dispatch('spinnerClose', true)
             })
-            .catch(error => {})
+            .catch(error => {
+                this.$store.dispatch('spinnerClose', true)
+            })
         }
     }
 }

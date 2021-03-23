@@ -8,11 +8,15 @@ const store = new Vuex.Store({
         auth: {
             check: false,
             user: false
-        }
+        },
+        spinnerClose: false
     },
     getters: {
         auth(state) {
             return state.auth
+        },
+        spinnerClose(state) {
+            return state.spinnerClose
         }
     },
     mutations: {
@@ -36,6 +40,9 @@ const store = new Vuex.Store({
             AppStorage.removeToken()
             state.auth.check = false
             state.auth.user = false
+        },
+        spinnerClose(state, status) {
+            state.spinnerClose = status
         }
     },
     actions: {
@@ -44,6 +51,9 @@ const store = new Vuex.Store({
         },
         logout(context) {
             context.commit('logout')
+        },
+        spinnerClose(context, status) {
+            context.commit('spinnerClose', status)
         }
     }
 })

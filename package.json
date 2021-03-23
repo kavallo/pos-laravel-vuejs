@@ -20,6 +20,7 @@
     "dependencies": {
         "vform": "^1.0.1",
         "vue": "^2.6.12",
+        "vue-loading-spinner": "^1.0.11",
         "vue-router": "^3.5.1",
         "vuex": "^3.6.2"
     }

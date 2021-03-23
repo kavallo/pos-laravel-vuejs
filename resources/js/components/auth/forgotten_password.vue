@@ -43,11 +43,15 @@ export default {
     },
     methods: {
         forgotPassword() {
+            this.$store.dispatch('spinnerClose', false)
             this.form.post('/forgot-password')
             .then(response => {
                 this.message = response.data.status
+                this.$store.dispatch('spinnerClose', true)
             })
-            .catch(error => {})
+            .catch(error => {
+                this.$store.dispatch('spinnerClose', true)
+            })
         }
     }
 }

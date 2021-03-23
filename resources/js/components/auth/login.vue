@@ -50,14 +50,18 @@ export default {
     },
     methods: {
         login() {
+            this.$store.dispatch('spinnerClose', false)
             this.form.post('/login')
             .then(response => {
                 AppStorage.storeToken(response.data.access_token)
                 this.$store.dispatch('auth')
                 this.$router.push({ name: 'home' })
                 toastr.success('Successfully Logged In!')
+                this.$store.dispatch('spinnerClose', true)
             })
-            .catch(error => {})
+            .catch(error => {
+                this.$store.dispatch('spinnerClose', true)
+            })
         }
     }
 }

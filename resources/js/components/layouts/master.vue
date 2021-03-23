@@ -1,5 +1,6 @@
 <template lang="">
     <div class="wrapper" v-if="this.$store.getters.auth.check">
+        <spinner v-if="!this.$store.getters.spinnerClose"></spinner>
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-dark navbar-primary" style="background-image: linear-gradient(0deg, #000041 0%, rgba(19,28,117,0.74) 100%);">
             <!-- Left navbar links -->
@@ -42,10 +43,12 @@
         </footer>
     </div>
     <div v-else>
+        <spinner v-if="!this.$store.getters.spinnerClose"></spinner>
         <router-view></router-view>
     </div>
 </template>
 <script>
+import Spinner from '../spinner'
 import Sidebar from './templates/sidebar'
 export default {
     methods: {
@@ -72,11 +75,13 @@ export default {
         }
     },
     created() {
+        this.$store.dispatch('spinnerClose', true)
         this.refreshToken()
         this.$store.dispatch('auth')
     },
     components: {
-        'side-bar': Sidebar
+        'side-bar': Sidebar,
+        'spinner' : Spinner
     }
 }
 </script>
