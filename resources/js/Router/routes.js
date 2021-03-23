@@ -5,7 +5,7 @@ import ForgottenPassword from '../components/auth/forgotten_password'
 import ResetPassword from '../components/auth/reset_password'
 import AdminParent from '../components/layouts/admin_parent'
 import Home from '../components/home'
-import About from '../components/about'
+import Profile from '../components/profile'
 import NotFound from '../components/404'
 
 const routes = [
@@ -51,9 +51,9 @@ const routes = [
             },
 
             {
-                path: 'about',
-                component: About,
-                name: 'about',
+                path: 'profile',
+                component: Profile,
+                name: 'profile',
             },
         ]
     },

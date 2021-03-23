@@ -25,9 +25,9 @@
 
                 <!-- Profile -->
                 <li class="nav-item">
-                    <router-link :to="{ name: 'about' }" class="nav-link" :class="{ 'active' : this.$route.name == 'about' }">
+                    <router-link :to="{ name: 'profile' }" class="nav-link" :class="{ 'active' : this.$route.name == 'profile' }">
                         <i class="nav-icon fa fa-user"></i>
-                        <p>About</p>
+                        <p>Profile</p>
                     </router-link>
                 </li>
 
