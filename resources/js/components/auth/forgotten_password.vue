@@ -2,8 +2,9 @@
     <div class="card-body">
         <p class="login-box-msg">Forgotten Password?</p>
         <alert-error v-if="form.errors.has('error')" :form="form" message=""></alert-error>
+        <alert-success :form="form" message=""> {{ message }} </alert-success>
 
-        <form @submit.prevent="login" @keydown="form.onKeydown($event)">
+        <form @submit.prevent="forgotPassword" @keydown="form.onKeydown($event)">
 
             <div class="input-group mb-3">
                 <input type="email" v-model="form.email" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }" placeholder="Email">
@@ -35,23 +36,18 @@ export default {
         return {
             form: new Form({
                 email: '',
-                password: '',
-                remember: false
-            })
+                url: `${appUrl}/auth/reset-password`
+            }),
+            message: ''
         }
     },
     methods: {
-        login() {
-            this.form.post('/api/auth/login')
+        forgotPassword() {
+            this.form.post('/forgot-password')
             .then(response => {
-                AppStorage.storeToken(response.data.access_token)
-                this.$store.dispatch('auth')
-                this.$router.push({ name: 'home' })
-                toastr.success('Logged In.')
+                this.message = response.data.status
             })
-            .catch(error => {
-                
-            })
+            .catch(error => {})
         }
     }
 }

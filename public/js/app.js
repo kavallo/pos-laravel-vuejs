@@ -1930,30 +1930,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       form: new Form({
         email: '',
-        password: '',
-        remember: false
-      })
+        url: "".concat(appUrl, "/auth/reset-password")
+      }),
+      message: ''
     };
   },
   methods: {
-    login: function login() {
+    forgotPassword: function forgotPassword() {
       var _this = this;
 
-      this.form.post('/api/auth/login').then(function (response) {
-        AppStorage.storeToken(response.data.access_token);
-
-        _this.$store.dispatch('auth');
-
-        _this.$router.push({
-          name: 'home'
-        });
-
-        toastr.success('Logged In.');
+      this.form.post('/forgot-password').then(function (response) {
+        _this.message = response.data.status;
       })["catch"](function (error) {});
     }
   }
@@ -2034,7 +2027,7 @@ __webpack_require__.r(__webpack_exports__);
           name: 'home'
         });
 
-        toastr.success('Logged In.');
+        toastr.success('Successfully Logged In!');
       })["catch"](function (error) {});
     }
   }
@@ -2100,7 +2093,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2108,7 +2100,7 @@ __webpack_require__.r(__webpack_exports__);
         email: this.$route.query.email,
         token: this.$route.params.token,
         password: '',
-        confirm_password: ''
+        password_confirmation: ''
       })
     };
   },
@@ -2116,16 +2108,12 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
 
-      this.form.post('/api/auth/login').then(function (response) {
-        AppStorage.storeToken(response.data.access_token);
-
-        _this.$store.dispatch('auth');
-
+      this.form.post('/reset-password').then(function (response) {
         _this.$router.push({
-          name: 'home'
+          name: 'login'
         });
 
-        toastr.success('Logged In.');
+        toastr.success("".concat(response.data.status, " Now, Log In."));
       })["catch"](function (error) {});
     }
   }
@@ -21985,13 +21973,17 @@ var render = function() {
         ? _c("alert-error", { attrs: { form: _vm.form, message: "" } })
         : _vm._e(),
       _vm._v(" "),
+      _c("alert-success", { attrs: { form: _vm.form, message: "" } }, [
+        _vm._v(" " + _vm._s(_vm.message) + " ")
+      ]),
+      _vm._v(" "),
       _c(
         "form",
         {
           on: {
             submit: function($event) {
               $event.preventDefault()
-              return _vm.login($event)
+              return _vm.forgotPassword($event)
             },
             keydown: function($event) {
               return _vm.form.onKeydown($event)
@@ -22342,7 +22334,7 @@ var render = function() {
                 ],
                 staticClass: "form-control",
                 class: { "is-invalid": _vm.form.errors.has("password") },
-                attrs: { type: "password", placeholder: "Password" },
+                attrs: { type: "password", placeholder: "New Password" },
                 domProps: { value: _vm.form.password },
                 on: {
                   input: function($event) {
@@ -22361,41 +22353,38 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "input-group mb-3" },
-            [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.confirm_password,
-                    expression: "form.confirm_password"
-                  }
-                ],
-                staticClass: "form-control",
-                class: {
-                  "is-invalid": _vm.form.errors.has("confirm_password")
-                },
-                attrs: { type: "password", placeholder: "Confirm Password" },
-                domProps: { value: _vm.form.confirm_password },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.form, "confirm_password", $event.target.value)
-                  }
+          _c("div", { staticClass: "input-group mb-3" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.password_confirmation,
+                  expression: "form.password_confirmation"
                 }
-              }),
-              _vm._v(" "),
-              _vm._m(2),
-              _vm._v(" "),
-              _c("has-error", { attrs: { form: _vm.form, field: "password" } })
-            ],
-            1
-          ),
+              ],
+              staticClass: "form-control",
+              class: {
+                "is-invalid": _vm.form.errors.has("password_confirmation")
+              },
+              attrs: { type: "password", placeholder: "Confirm Password" },
+              domProps: { value: _vm.form.password_confirmation },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.form,
+                    "password_confirmation",
+                    $event.target.value
+                  )
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(2)
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-lg-8" }, [

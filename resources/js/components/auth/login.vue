@@ -55,7 +55,7 @@ export default {
                 AppStorage.storeToken(response.data.access_token)
                 this.$store.dispatch('auth')
                 this.$router.push({ name: 'home' })
-                toastr.success('Logged In.')
+                toastr.success('Successfully Logged In!')
             })
             .catch(error => {})
         }

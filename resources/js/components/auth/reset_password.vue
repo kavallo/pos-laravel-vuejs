@@ -14,7 +14,7 @@
                 <has-error :form="form" field="email"></has-error>
             </div>
             <div class="input-group mb-3">
-                <input type="password" v-model="form.password" class="form-control" :class="{ 'is-invalid': form.errors.has('password') }" placeholder="Password">
+                <input type="password" v-model="form.password" class="form-control" :class="{ 'is-invalid': form.errors.has('password') }" placeholder="New Password">
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-lock"></span>
@@ -23,13 +23,12 @@
                 <has-error :form="form" field="password"></has-error>
             </div>
             <div class="input-group mb-3">
-                <input type="password" v-model="form.confirm_password" class="form-control" :class="{ 'is-invalid': form.errors.has('confirm_password') }" placeholder="Confirm Password">
+                <input type="password" v-model="form.password_confirmation" class="form-control" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" placeholder="Confirm Password">
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-lock"></span>
                     </div>
                 </div>
-                <has-error :form="form" field="password"></has-error>
             </div>
             <div class="row">
                 <div class="col-lg-8">
@@ -54,22 +53,18 @@ export default {
                 email: this.$route.query.email,
                 token: this.$route.params.token,
                 password: '',
-                confirm_password: '',
+                password_confirmation: '',
             })
         }
     },
     methods: {
         login() {
-            this.form.post('/api/auth/login')
+            this.form.post('/reset-password')
             .then(response => {
-                AppStorage.storeToken(response.data.access_token)
-                this.$store.dispatch('auth')
-                this.$router.push({ name: 'home' })
-                toastr.success('Logged In.')
+                this.$router.push({ name: 'login' })
+                toastr.success(`${response.data.status} Now, Log In.`)
             })
-            .catch(error => {
-                
-            })
+            .catch(error => {})
         }
     }
 }
