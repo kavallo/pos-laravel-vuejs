@@ -8,6 +8,27 @@
                 </div>
                 <div class="card-body">
                     <form @submit.prevent="profile" @keydown="form.onKeydown($event)">
+                        <div v-if="this.$store.getters.auth.user.photo" class="input-group mb-3">
+                            <img :src="photo" :alt="this.$store.getters.auth.user.name" style="width: 300px;">
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" :class="{ 'is-invalid': form.errors.has('photo') }">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fa fa-user"></span>
+                                </div>
+                            </div>
+                            <has-error :form="form" field="photo"></has-error>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="text" v-model="form.name" class="form-control" :class="{ 'is-invalid': form.errors.has('name') }" placeholder="Name">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fa fa-user"></span>
+                                </div>
+                            </div>
+                            <has-error :form="form" field="name"></has-error>
+                        </div>
                         <div class="input-group mb-3">
                             <input type="email" v-model="form.email" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }" placeholder="Email">
                             <div class="input-group-append">
@@ -17,20 +38,36 @@
                             </div>
                             <has-error :form="form" field="email"></has-error>
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="password" v-model="form.password" class="form-control" :class="{ 'is-invalid': form.errors.has('password') }" placeholder="New Password">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
-                                </div>
+                        <div class="card card-outline card-primary">
+                            <div class="card-header">
+                                <p>If you want to change password, Fill in these password field.</p>
                             </div>
-                            <has-error :form="form" field="password"></has-error>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="password" v-model="form.password_confirmation" class="form-control" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" placeholder="Confirm Password">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
+                            <div class="card-body">
+                                <div class="input-group mb-3">
+                                    <input type="password" v-model="form.password" class="form-control" :class="{ 'is-invalid': form.errors.has('old_password') }" placeholder="Old Password">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-lock"></span>
+                                        </div>
+                                    </div>
+                                    <has-error :form="form" field="old_password"></has-error>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="password" v-model="form.password" class="form-control" :class="{ 'is-invalid': form.errors.has('new_password') }" placeholder="New Password">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-lock"></span>
+                                        </div>
+                                    </div>
+                                    <has-error :form="form" field="new_password"></has-error>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="password" v-model="form.new_password_confirmation" class="form-control" :class="{ 'is-invalid': form.errors.has('new_password_confirmation') }" placeholder="Confirm Password">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-lock"></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -50,20 +87,20 @@ export default {
             form: new Form({
                 name: this.$store.getters.auth.user.name,
                 email: this.$store.getters.auth.user.email,
-                password: '',
-                password_confirmation: '',
-            })
+                old_password: '',
+                new_password: '',
+                new_password_confirmation: '',
+            }),
+            photo: `${appUrl}/${this.$store.getters.auth.user.photo}`,
         }
     },
     methods: {
         profile() {
             this.$store.dispatch('spinner', true)
-            this.form.post('/login')
+            this.form.post('/profile')
             .then(response => {
-                AppStorage.storeToken(response.data.access_token)
                 this.$store.dispatch('auth')
-                this.$router.push({ name: 'home' })
-                toastr.success('Successfully Logged In!')
+                toastr.success('Successfully profile Information saved!')
                 this.$store.dispatch('spinner', false)
             })
             .catch(error => {
