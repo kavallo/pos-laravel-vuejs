@@ -2426,7 +2426,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     profilePhoto: function profilePhoto(e) {
-      this.form.photo = e.target.files[0];
+      this.form.photo = e.target.files[0]; // this.photoUrl = URL.createObjectURL(this.form.photo)
     },
     profile: function profile() {
       var _this = this;
@@ -33316,7 +33316,7 @@ var render = function() {
                 _vm._v(" " + _vm._s(_vm.message) + " ")
               ]),
               _vm._v(" "),
-              this.$store.getters.auth.user.photo
+              this.photoUrl
                 ? _c("div", { staticClass: "input-group mb-3" }, [
                     _c("img", {
                       staticStyle: { height: "200px", "max-width": "100%" },

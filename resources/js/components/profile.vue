@@ -11,7 +11,7 @@
                         <alert-error v-if="form.errors.has('error')" :form="form" message="">Something went wrong!</alert-error>
                         <alert-success :form="form" message=""> {{ message }} </alert-success>
 
-                        <div v-if="this.$store.getters.auth.user.photo" class="input-group mb-3">
+                        <div v-if="this.photoUrl" class="input-group mb-3">
                             <img :src="photoUrl" :alt="this.$store.getters.auth.user.name" style="height: 200px; max-width: 100%;">
                         </div>
                         <div class="input-group mb-3">
@@ -104,6 +104,7 @@ export default {
     methods: {
         profilePhoto(e) {
             this.form.photo = e.target.files[0]
+            // this.photoUrl = URL.createObjectURL(this.form.photo)
         },
 
         profile() {
