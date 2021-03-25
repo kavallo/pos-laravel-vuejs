@@ -2242,19 +2242,9 @@ __webpack_require__.r(__webpack_exports__);
           name: 'login'
         });
       });
-    },
-    refreshToken: function refreshToken() {
-      if (AppStorage.getToken()) {
-        axios.post('refresh').then(function (response) {
-          AppStorage.storeToken(response.data.access_token);
-        })["catch"](function (error) {});
-      }
-
-      return true;
     }
   },
   created: function created() {
-    this.refreshToken();
     this.$store.dispatch('auth');
   },
   components: {
@@ -2414,28 +2404,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       form: new Form({
+        _method: 'put',
+        photo: null,
         name: this.$store.getters.auth.user.name,
         email: this.$store.getters.auth.user.email,
         old_password: '',
         new_password: '',
         new_password_confirmation: ''
       }),
-      photo: "".concat(appUrl, "/").concat(this.$store.getters.auth.user.photo)
+      photoUrl: "".concat(appUrl, "/").concat(this.$store.getters.auth.user.photo),
+      progress: '',
+      message: ''
     };
   },
   methods: {
+    profilePhoto: function profilePhoto(e) {
+      this.form.photo = e.target.files[0];
+    },
     profile: function profile() {
       var _this = this;
 
       this.$store.dispatch('spinner', true);
-      this.form.post('/profile').then(function (response) {
+      this.form.post('/profile', {
+        // object to formdata
+        transformRequest: function transformRequest(data, headers) {
+          return serialize(data);
+        },
+        // progress in %
+        onUploadProgress: function onUploadProgress(e) {
+          _this.progress = Math.round(e.loaded * 100 / e.total);
+        }
+      }).then(function (response) {
         _this.$store.dispatch('auth');
 
-        toastr.success('Successfully profile Information saved!');
+        _this.message = response.data.status;
 
         _this.$store.dispatch('spinner', false);
       })["catch"](function (error) {
@@ -2607,20 +2616,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "auth": () => (/* binding */ auth),
 /* harmony export */   "guest": () => (/* binding */ guest)
 /* harmony export */ });
-/* harmony import */ var _Helpers_vuexStore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Helpers/vuexStore */ "./resources/js/Helpers/vuexStore.js");
-
 function auth(to, from, next) {
   if (AppStorage.getToken()) {
     axios.post('/user').then(function (response) {
       next();
     })["catch"](function (error) {
-      _Helpers_vuexStore__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('logout');
       next({
         name: 'login'
       });
     });
   } else {
-    _Helpers_vuexStore__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('logout');
     next({
       name: 'login'
     });
@@ -2633,11 +2638,9 @@ function guest(to, from, next) {
         name: 'home'
       });
     })["catch"](function (error) {
-      _Helpers_vuexStore__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('logout');
       next();
     });
   } else {
-    _Helpers_vuexStore__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('logout');
     next();
   }
 }
@@ -2757,13 +2760,15 @@ var routes = [// auth routes
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var _Router_routeConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Router/routeConfig */ "./resources/js/Router/routeConfig.js");
 /* harmony import */ var _components_layouts_master__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/layouts/master */ "./resources/js/components/layouts/master.vue");
 /* harmony import */ var _Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Helpers/AppStorage */ "./resources/js/Helpers/AppStorage.js");
 /* harmony import */ var _Helpers_vuexStore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Helpers/vuexStore */ "./resources/js/Helpers/vuexStore.js");
 /* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vform */ "./node_modules/vform/dist/vform.common.js");
 /* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vform__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var object_to_formdata__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! object-to-formdata */ "./node_modules/object-to-formdata/dist/index.module.js");
+/* harmony import */ var object_to_formdata__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(object_to_formdata__WEBPACK_IMPORTED_MODULE_5__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
@@ -2772,17 +2777,19 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_5__.default.component(vform__WEBPACK_IMPORTED_MODULE_4__.HasError.name, vform__WEBPACK_IMPORTED_MODULE_4__.HasError);
-vue__WEBPACK_IMPORTED_MODULE_5__.default.component(vform__WEBPACK_IMPORTED_MODULE_4__.AlertError.name, vform__WEBPACK_IMPORTED_MODULE_4__.AlertError);
-vue__WEBPACK_IMPORTED_MODULE_5__.default.component(vform__WEBPACK_IMPORTED_MODULE_4__.AlertErrors.name, vform__WEBPACK_IMPORTED_MODULE_4__.AlertErrors);
-vue__WEBPACK_IMPORTED_MODULE_5__.default.component(vform__WEBPACK_IMPORTED_MODULE_4__.AlertSuccess.name, vform__WEBPACK_IMPORTED_MODULE_4__.AlertSuccess);
+
+vue__WEBPACK_IMPORTED_MODULE_6__.default.component(vform__WEBPACK_IMPORTED_MODULE_4__.HasError.name, vform__WEBPACK_IMPORTED_MODULE_4__.HasError);
+vue__WEBPACK_IMPORTED_MODULE_6__.default.component(vform__WEBPACK_IMPORTED_MODULE_4__.AlertError.name, vform__WEBPACK_IMPORTED_MODULE_4__.AlertError);
+vue__WEBPACK_IMPORTED_MODULE_6__.default.component(vform__WEBPACK_IMPORTED_MODULE_4__.AlertErrors.name, vform__WEBPACK_IMPORTED_MODULE_4__.AlertErrors);
+vue__WEBPACK_IMPORTED_MODULE_6__.default.component(vform__WEBPACK_IMPORTED_MODULE_4__.AlertSuccess.name, vform__WEBPACK_IMPORTED_MODULE_4__.AlertSuccess);
 window.appUrl = 'http://pos.test';
 window.AppStorage = _Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__.default;
-window.Form = vform__WEBPACK_IMPORTED_MODULE_4__.Form; // axios default configuration
+window.Form = vform__WEBPACK_IMPORTED_MODULE_4__.Form;
+window.serialize = object_to_formdata__WEBPACK_IMPORTED_MODULE_5__.serialize; // axios default configuration
 
 axios.defaults.baseURL = "".concat(appUrl, "/api");
 axios.defaults.headers.common['Authorization'] = "Bearer ".concat(_Helpers_AppStorage__WEBPACK_IMPORTED_MODULE_2__.default.getToken());
-var app = new vue__WEBPACK_IMPORTED_MODULE_5__.default({
+var app = new vue__WEBPACK_IMPORTED_MODULE_6__.default({
   render: function render(h) {
     return h(_components_layouts_master__WEBPACK_IMPORTED_MODULE_1__.default);
   },
@@ -21108,6 +21115,107 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/object-to-formdata/dist/index.module.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/object-to-formdata/dist/index.module.js ***!
+  \**************************************************************/
+/***/ ((module) => {
+
+const isUndefined = (value) => value === undefined;
+
+const isNull = (value) => value === null;
+
+const isBoolean = (value) => typeof value === 'boolean';
+
+const isObject = (value) => value === Object(value);
+
+const isArray = (value) => Array.isArray(value);
+
+const isDate = (value) => value instanceof Date;
+
+const isBlob = (value) =>
+  value &&
+  typeof value.size === 'number' &&
+  typeof value.type === 'string' &&
+  typeof value.slice === 'function';
+
+const isFile = (value) =>
+  isBlob(value) &&
+  typeof value.name === 'string' &&
+  (typeof value.lastModifiedDate === 'object' ||
+    typeof value.lastModified === 'number');
+
+const serialize = (obj, cfg, fd, pre) => {
+  cfg = cfg || {};
+
+  cfg.indices = isUndefined(cfg.indices) ? false : cfg.indices;
+
+  cfg.nullsAsUndefineds = isUndefined(cfg.nullsAsUndefineds)
+    ? false
+    : cfg.nullsAsUndefineds;
+
+  cfg.booleansAsIntegers = isUndefined(cfg.booleansAsIntegers)
+    ? false
+    : cfg.booleansAsIntegers;
+
+  cfg.allowEmptyArrays = isUndefined(cfg.allowEmptyArrays)
+    ? false
+    : cfg.allowEmptyArrays;
+
+  fd = fd || new FormData();
+
+  if (isUndefined(obj)) {
+    return fd;
+  } else if (isNull(obj)) {
+    if (!cfg.nullsAsUndefineds) {
+      fd.append(pre, '');
+    }
+  } else if (isBoolean(obj)) {
+    if (cfg.booleansAsIntegers) {
+      fd.append(pre, obj ? 1 : 0);
+    } else {
+      fd.append(pre, obj);
+    }
+  } else if (isArray(obj)) {
+    if (obj.length) {
+      obj.forEach((value, index) => {
+        const key = pre + '[' + (cfg.indices ? index : '') + ']';
+
+        serialize(value, cfg, fd, key);
+      });
+    } else if (cfg.allowEmptyArrays) {
+      fd.append(pre + '[]', '');
+    }
+  } else if (isDate(obj)) {
+    fd.append(pre, obj.toISOString());
+  } else if (isObject(obj) && !isFile(obj) && !isBlob(obj)) {
+    Object.keys(obj).forEach((prop) => {
+      const value = obj[prop];
+
+      if (isArray(value)) {
+        while (prop.length > 2 && prop.lastIndexOf('[]') === prop.length - 2) {
+          prop = prop.substring(0, prop.length - 2);
+        }
+      }
+
+      const key = pre ? pre + '[' + prop + ']' : prop;
+
+      serialize(value, cfg, fd, key);
+    });
+  } else {
+    fd.append(pre, obj);
+  }
+
+  return fd;
+};
+
+module.exports = {
+  serialize,
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/process/browser.js":
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
@@ -33196,12 +33304,24 @@ var render = function() {
               }
             },
             [
+              _vm.form.errors.has("error")
+                ? _c(
+                    "alert-error",
+                    { attrs: { form: _vm.form, message: "" } },
+                    [_vm._v("Something went wrong!")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("alert-success", { attrs: { form: _vm.form, message: "" } }, [
+                _vm._v(" " + _vm._s(_vm.message) + " ")
+              ]),
+              _vm._v(" "),
               this.$store.getters.auth.user.photo
                 ? _c("div", { staticClass: "input-group mb-3" }, [
                     _c("img", {
-                      staticStyle: { width: "300px" },
+                      staticStyle: { height: "200px", "max-width": "100%" },
                       attrs: {
-                        src: _vm.photo,
+                        src: _vm.photoUrl,
                         alt: this.$store.getters.auth.user.name
                       }
                     })
@@ -33215,7 +33335,8 @@ var render = function() {
                   _c("input", {
                     staticClass: "form-control",
                     class: { "is-invalid": _vm.form.errors.has("photo") },
-                    attrs: { type: "file" }
+                    attrs: { type: "file" },
+                    on: { change: _vm.profilePhoto }
                   }),
                   _vm._v(" "),
                   _vm._m(1),
@@ -33427,7 +33548,8 @@ var render = function() {
                 },
                 [_vm._v("Save")]
               )
-            ]
+            ],
+            1
           )
         ])
       ])

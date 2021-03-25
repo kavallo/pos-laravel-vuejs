@@ -8,11 +8,14 @@
                 </div>
                 <div class="card-body">
                     <form @submit.prevent="profile" @keydown="form.onKeydown($event)">
+                        <alert-error v-if="form.errors.has('error')" :form="form" message="">Something went wrong!</alert-error>
+                        <alert-success :form="form" message=""> {{ message }} </alert-success>
+
                         <div v-if="this.$store.getters.auth.user.photo" class="input-group mb-3">
-                            <img :src="photo" :alt="this.$store.getters.auth.user.name" style="width: 300px;">
+                            <img :src="photoUrl" :alt="this.$store.getters.auth.user.name" style="height: 200px; max-width: 100%;">
                         </div>
                         <div class="input-group mb-3">
-                            <input type="file" class="form-control" :class="{ 'is-invalid': form.errors.has('photo') }">
+                            <input type="file" @change="profilePhoto" class="form-control" :class="{ 'is-invalid': form.errors.has('photo') }">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fa fa-user"></span>
@@ -85,22 +88,37 @@ export default {
     data() {
         return {
             form: new Form({
+                _method: 'put',
+                photo: null,
                 name: this.$store.getters.auth.user.name,
                 email: this.$store.getters.auth.user.email,
                 old_password: '',
                 new_password: '',
                 new_password_confirmation: '',
             }),
-            photo: `${appUrl}/${this.$store.getters.auth.user.photo}`,
+            photoUrl: `${appUrl}/${this.$store.getters.auth.user.photo}`,
+            progress: '',
+            message: '',
         }
     },
     methods: {
+        profilePhoto(e) {
+            this.form.photo = e.target.files[0]
+        },
+
         profile() {
             this.$store.dispatch('spinner', true)
-            this.form.post('/profile')
+            this.form.post('/profile', {
+                // object to formdata
+                transformRequest: (data, headers) => serialize(data),
+                // progress in %
+                onUploadProgress: e => {
+                    this.progress = Math.round( (e.loaded * 100) / e.total )
+                }
+            })
             .then(response => {
                 this.$store.dispatch('auth')
-                toastr.success('Successfully profile Information saved!')
+                this.message = response.data.status
                 this.$store.dispatch('spinner', false)
             })
             .catch(error => {

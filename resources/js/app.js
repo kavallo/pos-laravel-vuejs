@@ -5,6 +5,7 @@ import Master from './components/layouts/master'
 import AppStorage from './Helpers/AppStorage'
 import store from './Helpers/vuexStore'
 import { Form, HasError, AlertError, AlertErrors, AlertSuccess } from 'vform'
+import { serialize } from 'object-to-formdata';
 
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
@@ -14,6 +15,7 @@ Vue.component(AlertSuccess.name, AlertSuccess)
 window.appUrl = 'http://pos.test';
 window.AppStorage = AppStorage
 window.Form = Form
+window.serialize = serialize
 
 // axios default configuration
 axios.defaults.baseURL = `${appUrl}/api`

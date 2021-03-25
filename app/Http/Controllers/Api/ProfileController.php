@@ -58,11 +58,14 @@ class ProfileController extends Controller
             $dynamicPath = 'user_' . $user->id . '/';
             $dynamicFileName = 'profile_' . uniqid();
             $photo_url = $this->storeFile($dynamicPath, $request->photo, $dynamicFileName);
+            if($user->photo) {
+                $this->destroyFile($user->photo);
+            }
             $user->photo = $photo_url;
         }
 
         $user->save();
 
-        return response()->json(['status' => 'Successfully profile information saved!'], 422);
+        return response()->json(['status' => 'Successfully profile information saved!']);
     }
 }

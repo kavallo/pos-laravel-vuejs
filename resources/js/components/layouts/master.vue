@@ -66,19 +66,8 @@ export default {
                 this.$router.push({ name: 'login' })
             })
         },
-        refreshToken() {
-            if(AppStorage.getToken()) {
-                axios.post('refresh')
-                .then(response => {
-                    AppStorage.storeToken(response.data.access_token)
-                })
-                .catch(error => {})
-            }
-            return true
-        }
     },
     created() {
-        this.refreshToken()
         this.$store.dispatch('auth')
     },
     components: {
