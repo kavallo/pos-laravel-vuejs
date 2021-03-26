@@ -87,7 +87,7 @@ export default {
         return {
             form: new Form({
                 _method: 'put',
-                photo: null,
+                photo: '',
                 name: this.$store.getters.auth.user.name,
                 email: this.$store.getters.auth.user.email,
                 old_password: '',
@@ -115,10 +115,13 @@ export default {
                 }
             })
             .then(response => {
+                this.$store.dispatch('auth')
                 this.$store.dispatch('spinner', false)
                 swal('', response.data.status, 'success')
-                this.$store.dispatch('auth')
-                this.form.reset()
+                this.form.old_password = 
+                this.form.new_password = 
+                this.form.new_password_confirmation = 
+                this.form.photo = ''
             })
             .catch(error => {
                 this.$store.dispatch('spinner', false)

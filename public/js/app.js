@@ -2416,7 +2416,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       form: new Form({
         _method: 'put',
-        photo: null,
+        photo: '',
         name: this.$store.getters.auth.user.name,
         email: this.$store.getters.auth.user.email,
         old_password: '',
@@ -2446,13 +2446,12 @@ __webpack_require__.r(__webpack_exports__);
           _this.progress = Math.round(e.loaded * 100 / e.total);
         }
       }).then(function (response) {
+        _this.$store.dispatch('auth');
+
         _this.$store.dispatch('spinner', false);
 
         swal('', response.data.status, 'success');
-
-        _this.$store.dispatch('auth');
-
-        _this.form.reset();
+        _this.form.old_password = _this.form.new_password = _this.form.new_password_confirmation = _this.form.photo = '';
       })["catch"](function (error) {
         _this.$store.dispatch('spinner', false);
 
