@@ -8,9 +8,7 @@
                 </div>
                 <div class="card-body">
                     <form @submit.prevent="profile" @keydown="form.onKeydown($event)">
-                        <alert-error v-if="form.errors.has('error')" :form="form" message="">Something went wrong!</alert-error>
-                        <alert-success :form="form" message=""> {{ message }} </alert-success>
-
+                        <alert-error v-if="form.errors.has('error')" :form="form" message=""></alert-error>
                         <div v-if="this.photoUrl" class="input-group mb-3">
                             <img :src="photoUrl" :alt="this.$store.getters.auth.user.name" style="height: 200px; max-width: 100%;">
                         </div>
@@ -47,7 +45,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="input-group mb-3">
-                                    <input type="password" v-model="form.password" class="form-control" :class="{ 'is-invalid': form.errors.has('old_password') }" placeholder="Old Password">
+                                    <input type="password" v-model="form.old_password" class="form-control" :class="{ 'is-invalid': form.errors.has('old_password') }" placeholder="Old Password">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-lock"></span>
@@ -56,7 +54,7 @@
                                     <has-error :form="form" field="old_password"></has-error>
                                 </div>
                                 <div class="input-group mb-3">
-                                    <input type="password" v-model="form.password" class="form-control" :class="{ 'is-invalid': form.errors.has('new_password') }" placeholder="New Password">
+                                    <input type="password" v-model="form.new_password" class="form-control" :class="{ 'is-invalid': form.errors.has('new_password') }" placeholder="New Password">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-lock"></span>
@@ -65,7 +63,7 @@
                                     <has-error :form="form" field="new_password"></has-error>
                                 </div>
                                 <div class="input-group mb-3">
-                                    <input type="password" v-model="form.new_password_confirmation" class="form-control" :class="{ 'is-invalid': form.errors.has('new_password_confirmation') }" placeholder="Confirm Password">
+                                    <input type="password" v-model="form.new_password_confirmation" class="form-control" placeholder="Confirm Password">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-lock"></span>
@@ -97,14 +95,13 @@ export default {
                 new_password_confirmation: '',
             }),
             photoUrl: `${appUrl}/${this.$store.getters.auth.user.photo}`,
-            progress: '',
-            message: '',
+            progress: ''
         }
     },
     methods: {
         profilePhoto(e) {
             this.form.photo = e.target.files[0]
-            // this.photoUrl = URL.createObjectURL(this.form.photo)
+            this.photoUrl = URL.createObjectURL(this.form.photo)
         },
 
         profile() {
@@ -118,12 +115,14 @@ export default {
                 }
             })
             .then(response => {
-                this.$store.dispatch('auth')
-                this.message = response.data.status
                 this.$store.dispatch('spinner', false)
+                swal('', response.data.status, 'success')
+                this.$store.dispatch('auth')
+                this.form.reset()
             })
             .catch(error => {
                 this.$store.dispatch('spinner', false)
+                swal('', 'Something Went Wrong!', 'error')
             })
         }
     }

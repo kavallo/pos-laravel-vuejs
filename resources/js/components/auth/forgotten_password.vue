@@ -2,7 +2,6 @@
     <div class="card-body">
         <p class="login-box-msg">Forgotten Password?</p>
         <alert-error v-if="form.errors.has('error')" :form="form" message="">Something went wrong!</alert-error>
-        <alert-success :form="form" message=""> {{ message }} </alert-success>
 
         <form @submit.prevent="forgotPassword" @keydown="form.onKeydown($event)">
 
@@ -37,8 +36,7 @@ export default {
             form: new Form({
                 email: '',
                 url: `${appUrl}/auth/reset-password`
-            }),
-            message: ''
+            })
         }
     },
     methods: {
@@ -48,9 +46,11 @@ export default {
             .then(response => {
                 this.message = response.data.status
                 this.$store.dispatch('spinner', false)
+                swal('', response.data.status, 'success')
             })
             .catch(error => {
                 this.$store.dispatch('spinner', false)
+                swal('', 'Something Went Wrong!', 'error')
             })
         }
     }

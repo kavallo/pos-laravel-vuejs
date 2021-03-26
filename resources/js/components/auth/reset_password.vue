@@ -63,11 +63,12 @@ export default {
             this.form.post('/reset-password')
             .then(response => {
                 this.$router.push({ name: 'login' })
-                toastr.success(`${response.data.status} Now, Log In.`)
                 this.$store.dispatch('spinner', false)
+                swal('', `${response.data.status} Now, Log In.`, 'success')
             })
             .catch(error => {
                 this.$store.dispatch('spinner', false)
+                swal('', 'Something Went Wrong!', 'error')
             })
         }
     }

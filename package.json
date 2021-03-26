@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "object-to-formdata": "^4.1.0",
+        "sweetalert": "^2.1.2",
         "vform": "^1.0.1",
         "vue": "^2.6.12",
         "vue-loading-spinner": "^1.0.11",

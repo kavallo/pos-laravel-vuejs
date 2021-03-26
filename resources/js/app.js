@@ -6,6 +6,7 @@ import AppStorage from './Helpers/AppStorage'
 import store from './Helpers/vuexStore'
 import { Form, HasError, AlertError, AlertErrors, AlertSuccess } from 'vform'
 import { serialize } from 'object-to-formdata';
+import swal from 'sweetalert'
 
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
@@ -16,6 +17,7 @@ window.appUrl = 'http://pos.test';
 window.AppStorage = AppStorage
 window.Form = Form
 window.serialize = serialize
+window.swal = swal
 
 // axios default configuration
 axios.defaults.baseURL = `${appUrl}/api`
