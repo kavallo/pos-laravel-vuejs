@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Rules\ValidPassword;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,6 +24,8 @@ class ProfileController extends Controller
             'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email,'.auth()->user()->id,
             'photo' => 'nullable|image|mimes:jpg,jpeg,png',
+            'old_password' => ['nullable', Rule::requiredIf($request->filled('new_password')), new ValidPassword],
+            'new_password' => ['nullable', Rule::requiredIf($request->filled('old_password')), 'min:8', 'confirmed'],
         ]);
 
         if ($validator->fails()) {
@@ -29,35 +33,19 @@ class ProfileController extends Controller
         }
 
         //save name and email
-        $user = auth()->user();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        
-        //if user want to change password
-        if (!is_null($request->old_password)) {
-            //validate password
-            $validator = Validator::make($request->all(), [
-                'old_password' => 'required|min:8',
-                'new_password' => 'required|confirmed|min:8',
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 422);
-            }
-
-            //save user password
-            if (Hash::check($request->old_password, auth()->user()->password)) {
-                $user->password = Hash::make($request->new_password);
-            } else {
-                return response()->json(['errors' => ['old_password' => 'Old password did not match.']], 422);
-            }
+        $user           = auth()->user();
+        $user->name     = $request->input('name');
+        $user->email    = $request->input('email');
+        // if new password is present
+        if($request->filled('new_password')) {
+            $user->password = Hash::make($request->input('new_password'));
         }
 
         //photo upload
-        if($request->photo) {
+        if($request->hasFile('photo')) {
             $dynamicPath = 'user_' . $user->id . '/';
             $dynamicFileName = 'profile_' . uniqid();
-            $photo_url = $this->storeFile($dynamicPath, $request->photo, $dynamicFileName);
+            $photo_url = $this->storeFile($dynamicPath, $request->file('photo'), $dynamicFileName);
             if($user->photo) {
                 $this->destroyFile($user->photo);
             }
