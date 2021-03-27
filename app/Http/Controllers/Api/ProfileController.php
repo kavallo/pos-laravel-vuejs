@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
-use App\Rules\ValidPassword;
+use App\Http\Requests\UpdateProfileRequest;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
@@ -17,21 +14,8 @@ class ProfileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function updateProfile(Request $request)
+    public function updateProfile(UpdateProfileRequest $request)
     {
-        //validate name and email field
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email,'.auth()->user()->id,
-            'photo' => 'nullable|image|mimes:jpg,jpeg,png',
-            'old_password' => ['nullable', Rule::requiredIf($request->filled('new_password')), new ValidPassword],
-            'new_password' => ['nullable', Rule::requiredIf($request->filled('old_password')), 'min:8', 'confirmed'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
         //save name and email
         $user           = auth()->user();
         $user->name     = $request->input('name');
