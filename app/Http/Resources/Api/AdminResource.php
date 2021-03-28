@@ -4,7 +4,7 @@ namespace App\Http\Resources\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class AdminResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,8 +20,8 @@ class UserResource extends JsonResource
             'email'             => $this->email,
             'photo'             => $this->photo,
             'email_verified_at' => $this->email_verified_at ? $this->email_verified_at->format('F d, Y') : '',
-            'created_at'        => $this->created_at ? $this->created_at->format('F d, Y') : '',
-            'updated_at'        => $this->updated_at ? $this->updated_at->format('F d, Y') : '',
+            'created_at'        => $this->created_at ? $this->created_at->format('d.m.Y') : '',
+            'updated_at'        => $this->updated_at ? $this->updated_at->format('d.m.Y') : '',
         ];
     }
 }

@@ -17,26 +17,26 @@ class ProfileController extends Controller
     public function updateProfile(UpdateProfileRequest $request)
     {
         //save name and email
-        $user           = auth()->user();
-        $user->name     = $request->input('name');
-        $user->email    = $request->input('email');
+        $admin           = auth()->user();
+        $admin->name     = $request->input('name');
+        $admin->email    = $request->input('email');
         // if new password is present
         if($request->filled('new_password')) {
-            $user->password = Hash::make($request->input('new_password'));
+            $admin->password = Hash::make($request->input('new_password'));
         }
 
         //photo upload
         if($request->hasFile('photo')) {
-            $dynamicPath = 'user_' . $user->id . '/';
+            $dynamicPath = 'admin_' . $admin->id . '/';
             $dynamicFileName = 'profile_' . uniqid();
             $photo_url = $this->storeFile($dynamicPath, $request->file('photo'), $dynamicFileName);
-            if($user->photo) {
-                $this->destroyFile($user->photo);
+            if($admin->photo) {
+                $this->destroyFile($admin->photo);
             }
-            $user->photo = $photo_url;
+            $admin->photo = $photo_url;
         }
 
-        $user->save();
+        $admin->save();
 
         return response()->json(['status' => 'Successfully profile information saved!']);
     }

@@ -94,7 +94,7 @@ export default {
                 new_password: '',
                 new_password_confirmation: '',
             }),
-            photoUrl: `${appUrl}/${this.$store.getters.auth.user.photo}`,
+            photoUrl: this.$store.getters.auth.user.photo ? `${appUrl}/${this.$store.getters.auth.user.photo}` : '',
             progress: ''
         }
     },

@@ -22,7 +22,7 @@ const store = new Vuex.Store({
     mutations: {
         auth(state) {
             if(AppStorage.getToken()) {
-                axios.post('/user')
+                axios.post('/admin')
                 .then(response => {
                     state.auth.check = true
                     state.auth.user = response.data.data

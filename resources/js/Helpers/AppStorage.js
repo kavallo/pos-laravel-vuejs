@@ -1,6 +1,6 @@
 class AppStorage {
     constructor() {
-        this.accessToken = 'pos_auth_user'
+        this.accessToken = 'pos_auth_token'
     }
     storeToken(token) {
         localStorage.setItem(this.accessToken, token)

@@ -1,6 +1,6 @@
 export function auth(to, from, next) {
     if(AppStorage.getToken()) {
-        axios.post('/user')
+        axios.post('/admin')
         .then(response => {
             next()
         })
@@ -14,7 +14,7 @@ export function auth(to, from, next) {
 
 export function guest(to, from, next) {
     if(AppStorage.getToken()) {
-        axios.post('/user')
+        axios.post('/admin')
         .then(response => {
             next({ name: 'home' })
         })

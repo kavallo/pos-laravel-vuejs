@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\UserResource;
+use App\Http\Resources\Api\AdminResource;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -40,9 +40,9 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function AuthenticateUser()
+    public function admin()
     {
-        return new UserResource(auth()->user());
+        return new AdminResource(auth()->user());
     }
 
     /**

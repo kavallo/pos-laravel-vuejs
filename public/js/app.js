@@ -2423,7 +2423,7 @@ __webpack_require__.r(__webpack_exports__);
         new_password: '',
         new_password_confirmation: ''
       }),
-      photoUrl: "".concat(appUrl, "/").concat(this.$store.getters.auth.user.photo),
+      photoUrl: this.$store.getters.auth.user.photo ? "".concat(appUrl, "/").concat(this.$store.getters.auth.user.photo) : '',
       progress: ''
     };
   },
@@ -2511,7 +2511,7 @@ var AppStorage = /*#__PURE__*/function () {
   function AppStorage() {
     _classCallCheck(this, AppStorage);
 
-    this.accessToken = 'pos_auth_user';
+    this.accessToken = 'pos_auth_token';
   }
 
   _createClass(AppStorage, [{
@@ -2574,7 +2574,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__.default.Store({
   mutations: {
     auth: function auth(state) {
       if (AppStorage.getToken()) {
-        axios.post('/user').then(function (response) {
+        axios.post('/admin').then(function (response) {
           state.auth.check = true;
           state.auth.user = response.data.data;
         })["catch"](function (error) {
@@ -2625,7 +2625,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 function auth(to, from, next) {
   if (AppStorage.getToken()) {
-    axios.post('/user').then(function (response) {
+    axios.post('/admin').then(function (response) {
       next();
     })["catch"](function (error) {
       next({
@@ -2640,7 +2640,7 @@ function auth(to, from, next) {
 }
 function guest(to, from, next) {
   if (AppStorage.getToken()) {
-    axios.post('/user').then(function (response) {
+    axios.post('/admin').then(function (response) {
       next({
         name: 'home'
       });
