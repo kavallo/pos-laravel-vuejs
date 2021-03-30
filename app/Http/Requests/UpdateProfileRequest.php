@@ -31,7 +31,6 @@ class UpdateProfileRequest extends FormRequest
         return [
             'name'         => 'required|string|max:100',
             'email'        => 'required|email|unique:admins,email,'.auth()->user()->id,
-            'photo'        => 'nullable|image|mimes:jpg,jpeg,png',
             'old_password' => ['nullable', Rule::requiredIf($this->filled('new_password')), new ValidPassword],
             'new_password' => ['nullable', Rule::requiredIf($this->filled('old_password')), 'min:8', 'confirmed'],
         ];
