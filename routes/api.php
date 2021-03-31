@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\ForgetPasswordController;
-use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\ProfileController;
 
 Route::middleware('guest:admin')->group(function() {
     Route::post('login', [AuthController::class, 'login']);
@@ -17,4 +18,8 @@ Route::middleware('auth:admin')->group(function() {
     // Route::post('payload', [AuthController::class, 'payload']);
     Route::post('admin', [AuthController::class, 'admin']);
     Route::put('profile', [ProfileController::class, 'updateProfile']);
+
+    // category
+    Route::apiResource('categories', CategoryController::class)->except('show');
+
 });

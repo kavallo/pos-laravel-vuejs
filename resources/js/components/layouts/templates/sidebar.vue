@@ -41,13 +41,13 @@
                             </a>
                             <ul class="dropdown-menu w-100" style="background: none;" aria-labelledby="category">
                                 <li class="nav-item">
-                                    <router-link :to="{ name: 'category.create' }" class="nav-link">
+                                    <router-link :to="{ name: 'categories.create' }" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add New</p>
                                     </router-link>
                                 </li>
                                 <li class="nav-item">
-                                     <router-link :to="{ name: 'category.index' }" class="nav-link">
+                                     <router-link :to="{ name: 'categories.index' }" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Category List</p>
                                     </router-link>

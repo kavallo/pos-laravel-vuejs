@@ -62,14 +62,14 @@ const routes = [
             {
                 path: 'categories/create',
                 component: CreateCategory,
-                name: 'category.create',
+                name: 'categories.create',
                 meta: { groupName: 'category' },
             },
 
             {
                 path: 'categories',
                 component: CategoryList,
-                name: 'category.index',
+                name: 'categories.index',
                 meta: { groupName: 'category' },
             },
 

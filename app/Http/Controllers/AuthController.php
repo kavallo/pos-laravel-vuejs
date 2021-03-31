@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\AdminResource;
+use App\Http\Resources\AdminResource;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller

@@ -2876,14 +2876,14 @@ var routes = [// auth routes
   }, {
     path: 'categories/create',
     component: _components_category_create_category__WEBPACK_IMPORTED_MODULE_9__.default,
-    name: 'category.create',
+    name: 'categories.create',
     meta: {
       groupName: 'category'
     }
   }, {
     path: 'categories',
     component: _components_category_category_list__WEBPACK_IMPORTED_MODULE_10__.default,
-    name: 'category.index',
+    name: 'categories.index',
     meta: {
       groupName: 'category'
     }
@@ -33202,7 +33202,7 @@ var render = function() {
               "router-link",
               {
                 staticClass: "btn btn-sm btn-primary float-right",
-                attrs: { to: { name: "category.create" } }
+                attrs: { to: { name: "categories.create" } }
               },
               [_vm._v("\n                    Add New\n                ")]
             )
@@ -33255,7 +33255,7 @@ var render = function() {
               "router-link",
               {
                 staticClass: "btn btn-sm btn-primary float-right",
-                attrs: { to: { name: "category.index" } }
+                attrs: { to: { name: "categories.index" } }
               },
               [_vm._v("\n                    Category List\n                ")]
             )
@@ -33736,7 +33736,7 @@ var render = function() {
                             "router-link",
                             {
                               staticClass: "nav-link",
-                              attrs: { to: { name: "category.create" } }
+                              attrs: { to: { name: "categories.create" } }
                             },
                             [
                               _c("i", {
@@ -33758,7 +33758,7 @@ var render = function() {
                             "router-link",
                             {
                               staticClass: "nav-link",
-                              attrs: { to: { name: "category.index" } }
+                              attrs: { to: { name: "categories.index" } }
                             },
                             [
                               _c("i", {

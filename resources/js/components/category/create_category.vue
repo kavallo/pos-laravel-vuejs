@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title"> Add New Category </h3>
-                    <router-link :to="{ name: 'category.index' }" class="btn btn-sm btn-primary float-right">
+                    <router-link :to="{ name: 'categories.index' }" class="btn btn-sm btn-primary float-right">
                         Category List
                     </router-link>
                 </div>
