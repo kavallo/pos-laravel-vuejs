@@ -20,7 +20,23 @@
 </template>
 <script>
 export default {
-
+    data() {
+        return {
+            category_list: '',
+        }
+    },
+    methods: {
+        
+        categories() {
+            axios.get('/categories')
+            .then(response => {
+                this.category_list = response.data.data
+            })
+        },
+    },
+    mounted() {
+        this.categories()
+    }
 }
 </script>
 <style>

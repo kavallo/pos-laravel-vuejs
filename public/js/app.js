@@ -2141,7 +2141,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      category_list: ''
+    };
+  },
+  methods: {
+    categories: function categories() {
+      var _this = this;
+
+      axios.get('/categories').then(function (response) {
+        _this.category_list = response.data.data;
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.categories();
+  }
+});
 
 /***/ }),
 
@@ -2184,33 +2202,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       form: new Form({
-        parent_id: '',
         name: ''
       })
     };
   },
   methods: {
-    categories: function categories() {},
     createCategory: function createCategory() {
       var _this = this;
 
       this.$store.dispatch('spinner', true);
-      this.form.post('/profile').then(function (response) {
+      this.form.post('/categories').then(function (response) {
         _this.$store.dispatch('spinner', false);
 
         _this.$router.push({
@@ -2224,8 +2229,7 @@ __webpack_require__.r(__webpack_exports__);
         swal('', 'Something Went Wrong!', 'error');
       });
     }
-  },
-  mounted: function mounted() {}
+  }
 });
 
 /***/ }),
@@ -33282,13 +33286,11 @@ var render = function() {
                 ? _c("alert-error", { attrs: { form: _vm.form, message: "" } })
                 : _vm._e(),
               _vm._v(" "),
-              _vm._m(0),
-              _vm._v(" "),
               _c(
                 "div",
                 { staticClass: "form-group" },
                 [
-                  _vm._m(1),
+                  _vm._m(0),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
@@ -33301,7 +33303,7 @@ var render = function() {
                     ],
                     staticClass: "form-control",
                     class: { "is-invalid": _vm.form.errors.has("name") },
-                    attrs: { type: "text", placeholder: "Category Name" },
+                    attrs: { type: "text", placeholder: "Name" },
                     domProps: { value: _vm.form.name },
                     on: {
                       input: function($event) {
@@ -33339,30 +33341,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", [_vm._v("Parent Category")]),
-      _vm._v(" "),
-      _c("select", { staticClass: "form-control" }, [
-        _c("option", { attrs: { selected: "", disabled: "", value: "" } }, [
-          _vm._v("Select a Category")
-        ]),
-        _vm._v(" "),
-        _c("option", [_vm._v("2")]),
-        _vm._v(" "),
-        _c("option", [_vm._v("3")]),
-        _vm._v(" "),
-        _c("option", [_vm._v("4")]),
-        _vm._v(" "),
-        _c("option", [_vm._v("5")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("label", [
-      _vm._v("Category Name "),
+      _vm._v("Name "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")])
     ])
   }

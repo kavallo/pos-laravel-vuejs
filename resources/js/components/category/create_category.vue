@@ -13,19 +13,8 @@
                     <form @submit.prevent="createCategory" @keydown="form.onKeydown($event)">
                         <alert-error v-if="form.errors.has('error')" :form="form" message=""></alert-error>
                         <div class="form-group">
-                            <label>Parent Category</label>
-                            <select class="form-control">
-                                <option selected disabled value="">Select a Category</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Category Name <span class="text-danger">*</span> </label>
-                            <input type="text" v-model="form.name" class="form-control" :class="{ 'is-invalid': form.errors.has('name') }" placeholder="Category Name">
+                            <label>Name <span class="text-danger">*</span> </label>
+                            <input type="text" v-model="form.name" class="form-control" :class="{ 'is-invalid': form.errors.has('name') }" placeholder="Name">
                             <has-error :form="form" field="name"></has-error>
                         </div>
                         <button type="submit" class="btn btn-primary" :disabled="form.busy">Save</button>
@@ -42,18 +31,14 @@ export default {
     data() {
         return {
             form: new Form({
-                parent_id: '',
                 name: ''
             }),
         }
     },
     methods: {
-        categories() {
-
-        },
         createCategory() {
             this.$store.dispatch('spinner', true)
-            this.form.post('/profile')
+            this.form.post('/categories')
             .then(response => {
                 this.$store.dispatch('spinner', false)
                 this.$router.push({ name: 'category.index' })
@@ -64,9 +49,6 @@ export default {
                 swal('', 'Something Went Wrong!', 'error')
             })
         }
-    },
-    mounted() {
-
     }
 }
 </script>
