@@ -12,31 +12,19 @@
                         <div v-if="this.photoUrl" class="input-group mb-3">
                             <img :src="photoUrl" :alt="this.$store.getters.auth.user.name" style="height: 200px; max-width: 100%;">
                         </div>
-                        <div class="input-group mb-3">
+                        <div class="form-group">
+                            <label> Photo </label>
                             <input type="file" @change="profilePhoto" class="form-control" :class="{ 'is-invalid': form.errors.has('photo') }">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fa fa-user"></span>
-                                </div>
-                            </div>
                             <has-error :form="form" field="photo"></has-error>
                         </div>
-                        <div class="input-group mb-3">
+                        <div class="form-group">
+                            <label> Name <span class="text-danger">*</span> </label>
                             <input type="text" v-model="form.name" class="form-control" :class="{ 'is-invalid': form.errors.has('name') }" placeholder="Name">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fa fa-user"></span>
-                                </div>
-                            </div>
                             <has-error :form="form" field="name"></has-error>
                         </div>
-                        <div class="input-group mb-3">
+                        <div class="form-group">
+                            <label> Email <span class="text-danger">*</span> </label>
                             <input type="email" v-model="form.email" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }" placeholder="Email">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
-                                </div>
-                            </div>
                             <has-error :form="form" field="email"></has-error>
                         </div>
                         <div class="card card-outline card-primary">
@@ -44,31 +32,19 @@
                                 <p>If you want to change password, Fill in these password field.</p>
                             </div>
                             <div class="card-body">
-                                <div class="input-group mb-3">
+                                <div class="form-group">
+                                    <label> Old Password </label>
                                     <input type="password" v-model="form.old_password" class="form-control" :class="{ 'is-invalid': form.errors.has('old_password') }" placeholder="Old Password">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-lock"></span>
-                                        </div>
-                                    </div>
                                     <has-error :form="form" field="old_password"></has-error>
                                 </div>
-                                <div class="input-group mb-3">
+                                <div class="form-group">
+                                    <label> New Password </label>
                                     <input type="password" v-model="form.new_password" class="form-control" :class="{ 'is-invalid': form.errors.has('new_password') }" placeholder="New Password">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-lock"></span>
-                                        </div>
-                                    </div>
                                     <has-error :form="form" field="new_password"></has-error>
                                 </div>
-                                <div class="input-group mb-3">
+                                <div class="form-group">
+                                    <label> Confirm Password </label>
                                     <input type="password" v-model="form.new_password_confirmation" class="form-control" placeholder="Confirm Password">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-lock"></span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

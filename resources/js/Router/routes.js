@@ -7,6 +7,9 @@ import AdminParent from '../components/layouts/admin_parent'
 import Home from '../components/home'
 import Profile from '../components/profile'
 import NotFound from '../components/404'
+// cateogry
+import CreateCategory from '../components/category/create_category'
+import CategoryList from '../components/category/category_list'
 
 const routes = [
     // auth routes
@@ -55,6 +58,21 @@ const routes = [
                 component: Profile,
                 name: 'profile',
             },
+
+            {
+                path: 'categories/create',
+                component: CreateCategory,
+                name: 'category.create',
+                meta: { groupName: 'category' },
+            },
+
+            {
+                path: 'categories',
+                component: CategoryList,
+                name: 'category.index',
+                meta: { groupName: 'category' },
+            },
+
         ]
     },
 
