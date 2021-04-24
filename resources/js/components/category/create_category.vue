@@ -41,8 +41,8 @@ export default {
             this.form.post('/categories')
             .then(response => {
                 this.$store.dispatch('spinner', false)
-                this.$router.push({ name: 'category.index' })
-                swal('', response.data.status, 'success')
+                this.$router.push({ name: 'categories.index' })
+                swal('', response.data.message, 'success')
             })
             .catch(error => {
                 this.$store.dispatch('spinner', false)

@@ -35,6 +35,12 @@ class CategoryController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+
+        Category::create([
+            'name' => $request->input('name')
+        ]);
+
+        return response()->json(['message' => 'Category Created.']);
     }
 
     /**

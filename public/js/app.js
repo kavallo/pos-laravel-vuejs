@@ -2141,6 +2141,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2219,10 +2246,10 @@ __webpack_require__.r(__webpack_exports__);
         _this.$store.dispatch('spinner', false);
 
         _this.$router.push({
-          name: 'category.index'
+          name: 'categories.index'
         });
 
-        swal('', response.data.status, 'success');
+        swal('', response.data.message, 'success');
       })["catch"](function (error) {
         _this.$store.dispatch('spinner', false);
 
@@ -33215,13 +33242,94 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
-          _vm._v("\n                Category List\n            ")
+          _c(
+            "table",
+            { staticClass: "table table-bordered table-striped text-center" },
+            [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.category_list, function(category) {
+                  return _c("tr", { key: category.id }, [
+                    _c("td", [_vm._v(" " + _vm._s(category.name) + " ")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(" " + _vm._s(category.name) + " ")]),
+                    _vm._v(" "),
+                    _vm._m(1, true)
+                  ])
+                }),
+                0
+              )
+            ]
+          )
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Sl")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("div", { staticClass: "dropdown" }, [
+        _c(
+          "a",
+          {
+            staticClass: "d-block",
+            attrs: {
+              href: "#",
+              role: "button",
+              id: "dropdownMenuLink",
+              "data-toggle": "dropdown",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [_c("i", { staticClass: "fas fa-align-left" })]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "dropdown-menu dropdown-menu-right",
+            attrs: { "aria-labelledby": "dropdownMenuLink" }
+          },
+          [
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "" } }, [
+              _vm._v("Edit")
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "dropdown-item",
+                attrs: { id: "confirm", href: "" }
+              },
+              [_vm._v("Delete")]
+            )
+          ]
+        )
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 

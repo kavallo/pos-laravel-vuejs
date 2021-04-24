@@ -25,9 +25,6 @@
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css') }}">
-    <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" style="height: auto;">
@@ -44,42 +41,15 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
-    <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
-    <!-- DataTables -->
-    <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
     <!-- vue init js -->
     <script src="{{ asset('js/app.js') }}"></script>
 
     <script>
-
-    // file input decorate
-    $(document).ready(function () {
-        bsCustomFileInput.init();
-    })
-
-    $(function () {
-        // Summernote
-        $('.post-content').summernote()
-    })
-
-    // datatable view
-    $('#dataTable').DataTable({
-        "paging": true,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-    });
-
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
-
+        $(function () {
+            // Summernote
+            $('.post-content').summernote();
+            $('[data-toggle="tooltip"]').tooltip();
+        })
     </script>
 
 </body>
