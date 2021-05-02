@@ -1,7 +1,7 @@
 <template lang="">
     <div>
         <!-- loading spinner -->
-        <spinner v-if="this.$store.getters.spinner"></spinner>
+        <!-- <spinner v-if="this.$store.getters.spinner"></spinner> -->
 
         <div class="wrapper" v-if="this.$store.getters.auth.check">
             <!-- Navbar -->
@@ -51,7 +51,7 @@
     </div>
 </template>
 <script>
-import Spinner from '../spinner'
+// import Spinner from '../spinner'
 import Sidebar from './templates/sidebar'
 export default {
     methods: {
@@ -72,7 +72,7 @@ export default {
     },
     components: {
         'side-bar': Sidebar,
-        'spinner' : Spinner
+        // 'spinner' : Spinner
     }
 }
 </script>
