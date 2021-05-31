@@ -10,7 +10,7 @@
                     <form @submit.prevent="profile" @keydown="form.onKeydown($event)">
                         <alert-error v-if="form.errors.has('error')" :form="form" message=""></alert-error>
                         <div v-if="this.photoUrl" class="input-group mb-3">
-                            <img :src="photoUrl" :alt="this.$store.getters.auth.user.name" style="height: 200px; max-width: 100%;">
+                            <img :src="this.photoUrl" :alt="this.$store.getters.auth.user.name" style="height: 200px; max-width: 100%;">
                         </div>
                         <div class="form-group">
                             <label> Photo </label>
@@ -70,7 +70,7 @@ export default {
                 new_password: '',
                 new_password_confirmation: '',
             }),
-            photoUrl: this.$store.getters.auth.user.photo ? `${appUrl}/${this.$store.getters.auth.user.photo}` : '',
+            photoUrl: this.$store.getters.auth.user.photo ? `${AppStorage.appUrl}/${this.$store.getters.auth.user.photo}` : '',
             progress: ''
         }
     },

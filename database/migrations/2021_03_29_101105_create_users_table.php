@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->foreignId('admin_id')->constrained('admins', 'id')->cascadeOnDelete();
             $table->string('name');
             $table->string('email')->unique()->nullable();
+            $table->string('photo')->nullable();
             $table->string('phone');
             $table->string('address');
             $table->enum('role', ['customer', 'supplier']);

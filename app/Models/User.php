@@ -13,6 +13,7 @@ class User extends Model
         'admin_id',
         'name',
         'email',
+        'photo',
         'phone',
         'address',
         'role',

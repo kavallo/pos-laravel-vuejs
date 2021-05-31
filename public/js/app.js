@@ -2573,7 +2573,7 @@ __webpack_require__.r(__webpack_exports__);
         new_password: '',
         new_password_confirmation: ''
       }),
-      photoUrl: this.$store.getters.auth.user.photo ? "".concat(appUrl, "/").concat(this.$store.getters.auth.user.photo) : '',
+      photoUrl: this.$store.getters.auth.user.photo ? "".concat(AppStorage.appUrl, "/").concat(this.$store.getters.auth.user.photo) : '',
       progress: ''
     };
   },
@@ -2635,6 +2635,7 @@ var AppStorage = /*#__PURE__*/function () {
     _classCallCheck(this, AppStorage);
 
     this.accessToken = 'pos_auth_token';
+    this.appUrl = 'http://pos.test';
   }
 
   _createClass(AppStorage, [{
@@ -23642,7 +23643,7 @@ var render = function() {
                     _c("img", {
                       staticStyle: { height: "200px", "max-width": "100%" },
                       attrs: {
-                        src: _vm.photoUrl,
+                        src: this.photoUrl,
                         alt: this.$store.getters.auth.user.name
                       }
                     })

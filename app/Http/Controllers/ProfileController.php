@@ -25,15 +25,15 @@ class ProfileController extends Controller
         }
 
         //photo upload
-        // if($request->hasFile('photo')) {
-        //     $dynamicPath = 'admin_' . $admin->id . '/';
-        //     $dynamicFileName = 'profile_' . uniqid();
-        //     $photo_url = $this->storeFile($dynamicPath, $request->file('photo'), $dynamicFileName);
-        //     if($admin->photo) {
-        //         $this->destroyFile($admin->photo);
-        //     }
-        //     $admin->photo = $photo_url;
-        // }
+        if($request->hasFile('photo')) {
+            $dynamicPath = 'admin_' . $admin->id . '/';
+            $dynamicFileName = 'profile_' . uniqid();
+            $photo_url = $this->storeFile($dynamicPath, $request->file('photo'), $dynamicFileName);
+            if($admin->photo) {
+                $this->destroyFile($admin->photo);
+            }
+            $admin->photo = $photo_url;
+        }
 
         $admin->save();
 
